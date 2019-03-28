@@ -16,16 +16,8 @@ namespace ZP_GA
         {
             InitializeComponent();
             ((Control)tabPage2).Enabled = false; // wylaczenie zakladki podczas startu programu
-        }
-
-        private void FragmentLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void SampleBox_TextChanged(object sender, EventArgs e)
-        {
-
+            GeneratorButton.Enabled = false; // zabezpieczenie przed pustymi wartosciami
+            ContinueButton1.Enabled = false; // zabezpieczenie przed pustymi wartosciami
         }
 
         private void ContinueButton1_Click(object sender, EventArgs e)
@@ -74,21 +66,39 @@ namespace ZP_GA
         private void SampleBox_Leave(object sender, EventArgs e)
         {
             int value = 0;
-            if (!int.TryParse(FragmentBox.Text, out value) || FragmentBox.Text == "")
+            if (!int.TryParse(SampleBox.Text, out value) || SampleBox.Text == "")
             {
                 MessageBox.Show("Wpisana wartość nie jest liczbą całkowitą lub zostawiłeś puste pole!!!");
-                FragmentBox.Focus();
+                SampleBox.Focus();
             }
         }
 
         private void ErrorBox_Leave(object sender, EventArgs e)
         {
             int value = 0;
-            if (!int.TryParse(FragmentBox.Text, out value) || FragmentBox.Text == "")
+            if (!int.TryParse(ErrorBox.Text, out value) || ErrorBox.Text == "")
             {
                 MessageBox.Show("Wpisana wartość nie jest liczbą całkowitą lub zostawiłeś puste pole!!!");
-                FragmentBox.Focus();
+                ErrorBox.Focus();
             }
+        }
+
+        private void FragmentBox_Enter(object sender, EventArgs e)
+        {
+            GeneratorButton.Enabled = true; // zabezpieczenie przed pustymi wartosciami
+            ContinueButton1.Enabled = true; // zabezpieczenie przed pustymi wartosciami
+        }
+
+        private void SampleBox_Enter(object sender, EventArgs e)
+        {
+            GeneratorButton.Enabled = true; // zabezpieczenie przed pustymi wartosciami
+            ContinueButton1.Enabled = true; // zabezpieczenie przed pustymi wartosciami
+        }
+
+        private void ErrorBox_Enter(object sender, EventArgs e)
+        {
+            GeneratorButton.Enabled = true; // zabezpieczenie przed pustymi wartosciami
+            ContinueButton1.Enabled = true; // zabezpieczenie przed pustymi wartosciami
         }
     }
 }

@@ -137,6 +137,7 @@
             this.ErrorBox.Name = "ErrorBox";
             this.ErrorBox.Size = new System.Drawing.Size(120, 20);
             this.ErrorBox.TabIndex = 6;
+            this.ErrorBox.Enter += new System.EventHandler(this.ErrorBox_Enter);
             this.ErrorBox.Leave += new System.EventHandler(this.ErrorBox_Leave);
             // 
             // FillLabel
@@ -185,7 +186,7 @@
             this.SampleBox.Name = "SampleBox";
             this.SampleBox.Size = new System.Drawing.Size(120, 20);
             this.SampleBox.TabIndex = 2;
-            this.SampleBox.TextChanged += new System.EventHandler(this.SampleBox_TextChanged);
+            this.SampleBox.Enter += new System.EventHandler(this.SampleBox_Enter);
             this.SampleBox.Leave += new System.EventHandler(this.SampleBox_Leave);
             // 
             // FragmentLabel
@@ -196,7 +197,6 @@
             this.FragmentLabel.Size = new System.Drawing.Size(96, 13);
             this.FragmentLabel.TabIndex = 1;
             this.FragmentLabel.Text = "Liczba fragmentów";
-            this.FragmentLabel.Click += new System.EventHandler(this.FragmentLabel_Click);
             // 
             // FragmentBox
             // 
@@ -204,6 +204,7 @@
             this.FragmentBox.Name = "FragmentBox";
             this.FragmentBox.Size = new System.Drawing.Size(120, 20);
             this.FragmentBox.TabIndex = 0;
+            this.FragmentBox.Enter += new System.EventHandler(this.FragmentBox_Enter);
             this.FragmentBox.Leave += new System.EventHandler(this.FragmentBox_Leave);
             // 
             // tabPage2
