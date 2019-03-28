@@ -60,5 +60,35 @@ namespace ZP_GA
             }
 
         }
+
+        private void FragmentBox_Leave(object sender, EventArgs e)
+        {
+            int value = 0;
+            if (!int.TryParse(FragmentBox.Text, out value) || FragmentBox.Text == "")
+            {
+                MessageBox.Show("Wpisana wartość nie jest liczbą całkowitą lub zostawiłeś puste pole!!!");
+                FragmentBox.Focus();
+            }
+        }
+
+        private void SampleBox_Leave(object sender, EventArgs e)
+        {
+            int value = 0;
+            if (!int.TryParse(FragmentBox.Text, out value) || FragmentBox.Text == "")
+            {
+                MessageBox.Show("Wpisana wartość nie jest liczbą całkowitą lub zostawiłeś puste pole!!!");
+                FragmentBox.Focus();
+            }
+        }
+
+        private void ErrorBox_Leave(object sender, EventArgs e)
+        {
+            int value = 0;
+            if (!int.TryParse(FragmentBox.Text, out value) || FragmentBox.Text == "")
+            {
+                MessageBox.Show("Wpisana wartość nie jest liczbą całkowitą lub zostawiłeś puste pole!!!");
+                FragmentBox.Focus();
+            }
+        }
     }
 }

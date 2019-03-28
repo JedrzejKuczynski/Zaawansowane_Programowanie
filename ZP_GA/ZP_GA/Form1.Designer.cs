@@ -30,26 +30,26 @@
         {
             this.TabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.GenParameters = new System.Windows.Forms.Panel();
             this.InstanceView = new System.Windows.Forms.Panel();
-            this.FragmentBox = new System.Windows.Forms.TextBox();
-            this.FragmentLabel = new System.Windows.Forms.Label();
-            this.SampleBox = new System.Windows.Forms.TextBox();
-            this.SampleLabel = new System.Windows.Forms.Label();
-            this.FillNumeric = new System.Windows.Forms.NumericUpDown();
-            this.FillLabel = new System.Windows.Forms.Label();
-            this.ErrorBox = new System.Windows.Forms.TextBox();
-            this.ErrorLabel = new System.Windows.Forms.Label();
+            this.GenParameters = new System.Windows.Forms.Panel();
+            this.GeneratorButton = new System.Windows.Forms.Button();
             this.ContinueButton1 = new System.Windows.Forms.Button();
+            this.ErrorLabel = new System.Windows.Forms.Label();
+            this.ErrorBox = new System.Windows.Forms.TextBox();
+            this.FillLabel = new System.Windows.Forms.Label();
+            this.FillNumeric = new System.Windows.Forms.NumericUpDown();
+            this.SampleLabel = new System.Windows.Forms.Label();
+            this.SampleBox = new System.Windows.Forms.TextBox();
+            this.FragmentLabel = new System.Windows.Forms.Label();
+            this.FragmentBox = new System.Windows.Forms.TextBox();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.HeurParameters = new System.Windows.Forms.Panel();
             this.ContinueButton2 = new System.Windows.Forms.Button();
-            this.GeneratorButton = new System.Windows.Forms.Button();
             this.TabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
             this.GenParameters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FillNumeric)).BeginInit();
+            this.tabPage2.SuspendLayout();
             this.HeurParameters.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -76,16 +76,13 @@
             this.tabPage1.Text = "Generator";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
+            // InstanceView
             // 
-            this.tabPage2.Controls.Add(this.HeurParameters);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(792, 424);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Metaheurystyka";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.InstanceView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.InstanceView.Location = new System.Drawing.Point(3, 224);
+            this.InstanceView.Name = "InstanceView";
+            this.InstanceView.Size = new System.Drawing.Size(786, 197);
+            this.InstanceView.TabIndex = 1;
             // 
             // GenParameters
             // 
@@ -106,47 +103,50 @@
             this.GenParameters.Size = new System.Drawing.Size(786, 221);
             this.GenParameters.TabIndex = 0;
             // 
-            // InstanceView
+            // GeneratorButton
             // 
-            this.InstanceView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.InstanceView.Location = new System.Drawing.Point(3, 224);
-            this.InstanceView.Name = "InstanceView";
-            this.InstanceView.Size = new System.Drawing.Size(786, 197);
-            this.InstanceView.TabIndex = 1;
+            this.GeneratorButton.Location = new System.Drawing.Point(8, 190);
+            this.GeneratorButton.Name = "GeneratorButton";
+            this.GeneratorButton.Size = new System.Drawing.Size(75, 23);
+            this.GeneratorButton.TabIndex = 9;
+            this.GeneratorButton.Text = "Wygeneruj";
+            this.GeneratorButton.UseVisualStyleBackColor = true;
             // 
-            // FragmentBox
+            // ContinueButton1
             // 
-            this.FragmentBox.Location = new System.Drawing.Point(140, 4);
-            this.FragmentBox.Name = "FragmentBox";
-            this.FragmentBox.Size = new System.Drawing.Size(120, 20);
-            this.FragmentBox.TabIndex = 0;
+            this.ContinueButton1.Location = new System.Drawing.Point(705, 191);
+            this.ContinueButton1.Name = "ContinueButton1";
+            this.ContinueButton1.Size = new System.Drawing.Size(75, 23);
+            this.ContinueButton1.TabIndex = 8;
+            this.ContinueButton1.Text = "Zatwierdź";
+            this.ContinueButton1.UseVisualStyleBackColor = true;
+            this.ContinueButton1.Click += new System.EventHandler(this.ContinueButton1_Click);
             // 
-            // FragmentLabel
+            // ErrorLabel
             // 
-            this.FragmentLabel.AutoSize = true;
-            this.FragmentLabel.Location = new System.Drawing.Point(5, 4);
-            this.FragmentLabel.Name = "FragmentLabel";
-            this.FragmentLabel.Size = new System.Drawing.Size(96, 13);
-            this.FragmentLabel.TabIndex = 1;
-            this.FragmentLabel.Text = "Liczba fragmentów";
-            this.FragmentLabel.Click += new System.EventHandler(this.FragmentLabel_Click);
+            this.ErrorLabel.AutoSize = true;
+            this.ErrorLabel.Location = new System.Drawing.Point(5, 81);
+            this.ErrorLabel.Name = "ErrorLabel";
+            this.ErrorLabel.Size = new System.Drawing.Size(77, 13);
+            this.ErrorLabel.TabIndex = 7;
+            this.ErrorLabel.Text = "Liczba błędów";
             // 
-            // SampleBox
+            // ErrorBox
             // 
-            this.SampleBox.Location = new System.Drawing.Point(140, 28);
-            this.SampleBox.Name = "SampleBox";
-            this.SampleBox.Size = new System.Drawing.Size(120, 20);
-            this.SampleBox.TabIndex = 2;
-            this.SampleBox.TextChanged += new System.EventHandler(this.SampleBox_TextChanged);
+            this.ErrorBox.Location = new System.Drawing.Point(140, 81);
+            this.ErrorBox.Name = "ErrorBox";
+            this.ErrorBox.Size = new System.Drawing.Size(120, 20);
+            this.ErrorBox.TabIndex = 6;
+            this.ErrorBox.Leave += new System.EventHandler(this.ErrorBox_Leave);
             // 
-            // SampleLabel
+            // FillLabel
             // 
-            this.SampleLabel.AutoSize = true;
-            this.SampleLabel.Location = new System.Drawing.Point(5, 31);
-            this.SampleLabel.Name = "SampleLabel";
-            this.SampleLabel.Size = new System.Drawing.Size(74, 13);
-            this.SampleLabel.TabIndex = 3;
-            this.SampleLabel.Text = "Liczba próbek";
+            this.FillLabel.AutoSize = true;
+            this.FillLabel.Location = new System.Drawing.Point(5, 57);
+            this.FillLabel.Name = "FillLabel";
+            this.FillLabel.Size = new System.Drawing.Size(129, 13);
+            this.FillLabel.TabIndex = 5;
+            this.FillLabel.Text = "Poziom wypełnienia (w %)";
             // 
             // FillNumeric
             // 
@@ -170,40 +170,52 @@
             0,
             0});
             // 
-            // FillLabel
+            // SampleLabel
             // 
-            this.FillLabel.AutoSize = true;
-            this.FillLabel.Location = new System.Drawing.Point(5, 57);
-            this.FillLabel.Name = "FillLabel";
-            this.FillLabel.Size = new System.Drawing.Size(129, 13);
-            this.FillLabel.TabIndex = 5;
-            this.FillLabel.Text = "Poziom wypełnienia (w %)";
+            this.SampleLabel.AutoSize = true;
+            this.SampleLabel.Location = new System.Drawing.Point(5, 31);
+            this.SampleLabel.Name = "SampleLabel";
+            this.SampleLabel.Size = new System.Drawing.Size(74, 13);
+            this.SampleLabel.TabIndex = 3;
+            this.SampleLabel.Text = "Liczba próbek";
             // 
-            // ErrorBox
+            // SampleBox
             // 
-            this.ErrorBox.Location = new System.Drawing.Point(140, 81);
-            this.ErrorBox.Name = "ErrorBox";
-            this.ErrorBox.Size = new System.Drawing.Size(120, 20);
-            this.ErrorBox.TabIndex = 6;
+            this.SampleBox.Location = new System.Drawing.Point(140, 28);
+            this.SampleBox.Name = "SampleBox";
+            this.SampleBox.Size = new System.Drawing.Size(120, 20);
+            this.SampleBox.TabIndex = 2;
+            this.SampleBox.TextChanged += new System.EventHandler(this.SampleBox_TextChanged);
+            this.SampleBox.Leave += new System.EventHandler(this.SampleBox_Leave);
             // 
-            // ErrorLabel
+            // FragmentLabel
             // 
-            this.ErrorLabel.AutoSize = true;
-            this.ErrorLabel.Location = new System.Drawing.Point(5, 81);
-            this.ErrorLabel.Name = "ErrorLabel";
-            this.ErrorLabel.Size = new System.Drawing.Size(77, 13);
-            this.ErrorLabel.TabIndex = 7;
-            this.ErrorLabel.Text = "Liczba błędów";
+            this.FragmentLabel.AutoSize = true;
+            this.FragmentLabel.Location = new System.Drawing.Point(5, 4);
+            this.FragmentLabel.Name = "FragmentLabel";
+            this.FragmentLabel.Size = new System.Drawing.Size(96, 13);
+            this.FragmentLabel.TabIndex = 1;
+            this.FragmentLabel.Text = "Liczba fragmentów";
+            this.FragmentLabel.Click += new System.EventHandler(this.FragmentLabel_Click);
             // 
-            // ContinueButton1
+            // FragmentBox
             // 
-            this.ContinueButton1.Location = new System.Drawing.Point(705, 191);
-            this.ContinueButton1.Name = "ContinueButton1";
-            this.ContinueButton1.Size = new System.Drawing.Size(75, 23);
-            this.ContinueButton1.TabIndex = 8;
-            this.ContinueButton1.Text = "Zatwierdź";
-            this.ContinueButton1.UseVisualStyleBackColor = true;
-            this.ContinueButton1.Click += new System.EventHandler(this.ContinueButton1_Click);
+            this.FragmentBox.Location = new System.Drawing.Point(140, 4);
+            this.FragmentBox.Name = "FragmentBox";
+            this.FragmentBox.Size = new System.Drawing.Size(120, 20);
+            this.FragmentBox.TabIndex = 0;
+            this.FragmentBox.Leave += new System.EventHandler(this.FragmentBox_Leave);
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.HeurParameters);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(792, 424);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Metaheurystyka";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // HeurParameters
             // 
@@ -225,15 +237,6 @@
             this.ContinueButton2.UseVisualStyleBackColor = true;
             this.ContinueButton2.Click += new System.EventHandler(this.ContinueButton2_Click);
             // 
-            // GeneratorButton
-            // 
-            this.GeneratorButton.Location = new System.Drawing.Point(8, 190);
-            this.GeneratorButton.Name = "GeneratorButton";
-            this.GeneratorButton.Size = new System.Drawing.Size(75, 23);
-            this.GeneratorButton.TabIndex = 9;
-            this.GeneratorButton.Text = "Wygeneruj";
-            this.GeneratorButton.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -244,10 +247,10 @@
             this.Text = "Algorytm Genetyczny";
             this.TabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
             this.GenParameters.ResumeLayout(false);
             this.GenParameters.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FillNumeric)).EndInit();
+            this.tabPage2.ResumeLayout(false);
             this.HeurParameters.ResumeLayout(false);
             this.ResumeLayout(false);
 
