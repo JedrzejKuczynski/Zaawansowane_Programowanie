@@ -45,12 +45,19 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.HeurParameters = new System.Windows.Forms.Panel();
             this.ContinueButton2 = new System.Windows.Forms.Button();
+            this.InstanceGridView = new System.Windows.Forms.DataGridView();
+            this.GenAndSaveButton = new System.Windows.Forms.Button();
+            this.ModifyButton = new System.Windows.Forms.Button();
+            this.SaveButton = new System.Windows.Forms.Button();
+            this.LoadButton = new System.Windows.Forms.Button();
             this.TabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.InstanceView.SuspendLayout();
             this.GenParameters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FillNumeric)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.HeurParameters.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.InstanceGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // TabControl1
@@ -78,6 +85,7 @@
             // 
             // InstanceView
             // 
+            this.InstanceView.Controls.Add(this.InstanceGridView);
             this.InstanceView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.InstanceView.Location = new System.Drawing.Point(3, 224);
             this.InstanceView.Name = "InstanceView";
@@ -87,6 +95,10 @@
             // GenParameters
             // 
             this.GenParameters.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.GenParameters.Controls.Add(this.LoadButton);
+            this.GenParameters.Controls.Add(this.SaveButton);
+            this.GenParameters.Controls.Add(this.ModifyButton);
+            this.GenParameters.Controls.Add(this.GenAndSaveButton);
             this.GenParameters.Controls.Add(this.GeneratorButton);
             this.GenParameters.Controls.Add(this.ContinueButton1);
             this.GenParameters.Controls.Add(this.ErrorLabel);
@@ -105,16 +117,17 @@
             // 
             // GeneratorButton
             // 
-            this.GeneratorButton.Location = new System.Drawing.Point(8, 190);
+            this.GeneratorButton.Location = new System.Drawing.Point(7, 160);
             this.GeneratorButton.Name = "GeneratorButton";
             this.GeneratorButton.Size = new System.Drawing.Size(75, 23);
             this.GeneratorButton.TabIndex = 9;
             this.GeneratorButton.Text = "Wygeneruj";
             this.GeneratorButton.UseVisualStyleBackColor = true;
+            this.GeneratorButton.Click += new System.EventHandler(this.GeneratorButton_Click);
             // 
             // ContinueButton1
             // 
-            this.ContinueButton1.Location = new System.Drawing.Point(705, 191);
+            this.ContinueButton1.Location = new System.Drawing.Point(208, 193);
             this.ContinueButton1.Name = "ContinueButton1";
             this.ContinueButton1.Size = new System.Drawing.Size(75, 23);
             this.ContinueButton1.TabIndex = 8;
@@ -133,7 +146,7 @@
             // 
             // ErrorBox
             // 
-            this.ErrorBox.Location = new System.Drawing.Point(140, 81);
+            this.ErrorBox.Location = new System.Drawing.Point(178, 81);
             this.ErrorBox.Name = "ErrorBox";
             this.ErrorBox.Size = new System.Drawing.Size(120, 20);
             this.ErrorBox.TabIndex = 6;
@@ -145,13 +158,13 @@
             this.FillLabel.AutoSize = true;
             this.FillLabel.Location = new System.Drawing.Point(5, 57);
             this.FillLabel.Name = "FillLabel";
-            this.FillLabel.Size = new System.Drawing.Size(129, 13);
+            this.FillLabel.Size = new System.Drawing.Size(167, 13);
             this.FillLabel.TabIndex = 5;
-            this.FillLabel.Text = "Poziom wypełnienia (w %)";
+            this.FillLabel.Text = "Poziom wypełnienia wiersza (w %)";
             // 
             // FillNumeric
             // 
-            this.FillNumeric.Location = new System.Drawing.Point(140, 54);
+            this.FillNumeric.Location = new System.Drawing.Point(178, 54);
             this.FillNumeric.Maximum = new decimal(new int[] {
             50,
             0,
@@ -182,7 +195,7 @@
             // 
             // SampleBox
             // 
-            this.SampleBox.Location = new System.Drawing.Point(140, 28);
+            this.SampleBox.Location = new System.Drawing.Point(178, 30);
             this.SampleBox.Name = "SampleBox";
             this.SampleBox.Size = new System.Drawing.Size(120, 20);
             this.SampleBox.TabIndex = 2;
@@ -200,7 +213,7 @@
             // 
             // FragmentBox
             // 
-            this.FragmentBox.Location = new System.Drawing.Point(140, 4);
+            this.FragmentBox.Location = new System.Drawing.Point(178, 4);
             this.FragmentBox.Name = "FragmentBox";
             this.FragmentBox.Size = new System.Drawing.Size(120, 20);
             this.FragmentBox.TabIndex = 0;
@@ -238,6 +251,53 @@
             this.ContinueButton2.UseVisualStyleBackColor = true;
             this.ContinueButton2.Click += new System.EventHandler(this.ContinueButton2_Click);
             // 
+            // InstanceGridView
+            // 
+            this.InstanceGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.InstanceGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.InstanceGridView.Location = new System.Drawing.Point(0, 0);
+            this.InstanceGridView.Name = "InstanceGridView";
+            this.InstanceGridView.Size = new System.Drawing.Size(786, 197);
+            this.InstanceGridView.TabIndex = 0;
+            this.InstanceGridView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.InstanceGridView_DataError);
+            // 
+            // GenAndSaveButton
+            // 
+            this.GenAndSaveButton.Location = new System.Drawing.Point(88, 160);
+            this.GenAndSaveButton.Name = "GenAndSaveButton";
+            this.GenAndSaveButton.Size = new System.Drawing.Size(114, 23);
+            this.GenAndSaveButton.TabIndex = 10;
+            this.GenAndSaveButton.Text = "Wygeneruj i zapisz";
+            this.GenAndSaveButton.UseVisualStyleBackColor = true;
+            // 
+            // ModifyButton
+            // 
+            this.ModifyButton.Location = new System.Drawing.Point(208, 160);
+            this.ModifyButton.Name = "ModifyButton";
+            this.ModifyButton.Size = new System.Drawing.Size(75, 23);
+            this.ModifyButton.TabIndex = 11;
+            this.ModifyButton.Text = "Modyfikuj";
+            this.ModifyButton.UseVisualStyleBackColor = true;
+            this.ModifyButton.Click += new System.EventHandler(this.ModifyButton_Click);
+            // 
+            // SaveButton
+            // 
+            this.SaveButton.Location = new System.Drawing.Point(7, 193);
+            this.SaveButton.Name = "SaveButton";
+            this.SaveButton.Size = new System.Drawing.Size(75, 23);
+            this.SaveButton.TabIndex = 12;
+            this.SaveButton.Text = "Zapisz";
+            this.SaveButton.UseVisualStyleBackColor = true;
+            // 
+            // LoadButton
+            // 
+            this.LoadButton.Location = new System.Drawing.Point(88, 193);
+            this.LoadButton.Name = "LoadButton";
+            this.LoadButton.Size = new System.Drawing.Size(114, 23);
+            this.LoadButton.TabIndex = 13;
+            this.LoadButton.Text = "Wczytaj";
+            this.LoadButton.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -248,11 +308,13 @@
             this.Text = "Algorytm Genetyczny";
             this.TabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.InstanceView.ResumeLayout(false);
             this.GenParameters.ResumeLayout(false);
             this.GenParameters.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FillNumeric)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.HeurParameters.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.InstanceGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -276,6 +338,11 @@
         private System.Windows.Forms.Panel HeurParameters;
         private System.Windows.Forms.Button ContinueButton2;
         private System.Windows.Forms.Button GeneratorButton;
+        private System.Windows.Forms.DataGridView InstanceGridView;
+        private System.Windows.Forms.Button ModifyButton;
+        private System.Windows.Forms.Button GenAndSaveButton;
+        private System.Windows.Forms.Button LoadButton;
+        private System.Windows.Forms.Button SaveButton;
     }
 }
 

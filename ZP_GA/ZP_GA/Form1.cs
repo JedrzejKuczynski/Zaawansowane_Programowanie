@@ -12,18 +12,27 @@ namespace ZP_GA
 {
     public partial class Form1 : Form
     {
+
+        DataTable Instance;
+        BindingSource SBind;
+
         public Form1()
         {
             InitializeComponent();
             ((Control)tabPage2).Enabled = false; // wylaczenie zakladki podczas startu programu
             GeneratorButton.Enabled = false; // zabezpieczenie przed pustymi wartosciami
+            GenAndSaveButton.Enabled = false; // zabezpieczenie przed pustymi wartosciami
             ContinueButton1.Enabled = false; // zabezpieczenie przed pustymi wartosciami
+            ModifyButton.Enabled = false;
+            SaveButton.Enabled = false;
+            InstanceGridView.Enabled = false; // zabezpieczenie przed grzebaniem w instancji
         }
 
         private void ContinueButton1_Click(object sender, EventArgs e)
         {
             TabControl1.SelectedTab = tabPage2; // zmienienie zakladki
             GenParameters.Enabled = false; // wylaczenie poprzedniej
+            InstanceGridView.Enabled = false; // wylaczenie DataGridView
             ((Control)tabPage2).Enabled = true; // wlaczenie aktualnej
         }
 
@@ -32,6 +41,7 @@ namespace ZP_GA
             TabControl1.SelectedTab = tabPage1; // powrot do pierwszej zakladki
             GenParameters.Enabled = true; // wlaczenie jej
             ((Control)tabPage2).Enabled = false; // wylaczenie nastepnej
+            ContinueButton1.Enabled = false; // zabezpieczenie przed brakiem instancji
 
             foreach (TabPage tp in TabControl1.TabPages) // czyszczenie wartosci
             {
@@ -50,6 +60,13 @@ namespace ZP_GA
                     }
                 }
             }
+
+            Instance.Reset(); // czyszczenie DataTable z instancja
+            ModifyButton.Enabled = false;
+            GenAndSaveButton.Enabled = false;
+            SaveButton.Enabled = false;
+            InstanceGridView.Enabled = false;
+            GeneratorButton.Enabled = false;
 
         }
 
@@ -86,19 +103,47 @@ namespace ZP_GA
         private void FragmentBox_Enter(object sender, EventArgs e)
         {
             GeneratorButton.Enabled = true; // zabezpieczenie przed pustymi wartosciami
-            ContinueButton1.Enabled = true; // zabezpieczenie przed pustymi wartosciami
+            GenAndSaveButton.Enabled = true;
         }
 
         private void SampleBox_Enter(object sender, EventArgs e)
         {
             GeneratorButton.Enabled = true; // zabezpieczenie przed pustymi wartosciami
-            ContinueButton1.Enabled = true; // zabezpieczenie przed pustymi wartosciami
+            GenAndSaveButton.Enabled = true;
         }
 
         private void ErrorBox_Enter(object sender, EventArgs e)
         {
             GeneratorButton.Enabled = true; // zabezpieczenie przed pustymi wartosciami
-            ContinueButton1.Enabled = true; // zabezpieczenie przed pustymi wartosciami
+            GenAndSaveButton.Enabled = true;
+        }
+
+        private void GeneratorButton_Click(object sender, EventArgs e)
+        {
+            int fragments = Int32.Parse(FragmentBox.Text);
+            int samples = Int32.Parse(SampleBox.Text);
+            double fill = Convert.ToDouble(Math.Round(FillNumeric.Value, 0)) / 100;
+            int errors = Int32.Parse(ErrorBox.Text);
+            Generator new_instance = new Generator(fragments, samples, fill, errors);
+
+            Instance = new_instance.Instance.Copy();
+            SBind = new BindingSource();
+            SBind.DataSource = Instance;
+            InstanceGridView.DataSource = SBind;
+
+            ContinueButton1.Enabled = true; // zabezpieczenie przed brakiem instancji
+            ModifyButton.Enabled = true; // umozliwienie zmian
+            SaveButton.Enabled = true;
+        }
+
+        private void InstanceGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            MessageBox.Show("Wprowadziłeś złą wartość!!!");
+        }
+
+        private void ModifyButton_Click(object sender, EventArgs e)
+        {
+            InstanceGridView.Enabled = true;
         }
     }
 }
