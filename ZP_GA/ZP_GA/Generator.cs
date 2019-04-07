@@ -63,7 +63,9 @@ namespace ZP_GA
             // lista przechowujaca uzyte indeksy do wprowadzania bledow
             indices = new List<Tuple<int, int>>();
 
-            for(int i = 0; i < errors; i++) // wprowadzanie bledow
+            int errors_counter = 0;
+
+            while(errors_counter < errors) // wprowadzanie bledow
             {
                 int row_index = random.Next(instance.Rows.Count); // losowanie wiersza
                 int column_index = random.Next(instance.Columns.Count); // losowanie kolumny
@@ -77,9 +79,9 @@ namespace ZP_GA
                     else
                         instance.Rows[row_index][column_index] = 1;
 
+                    indices.Add(used); // dodaj na liste uzytych
+                    errors_counter++;
                 }
-
-                indices.Add(used); // dodaj na liste uzytych
             }
 
         }
