@@ -10,11 +10,11 @@
       * Przystosowanie będzie trochę trwało, ale chyba nie ma zmiłuj się?
   3. Warunek stopu
   4. Selekcja
-    * Rankingowa
-    * Turniej
+      * Rankingowa
+      * Turniej
   5. Krzyżowanie
-    * Z zachowaniem porządku
-    * Z częściowym odwzorowaniem
+      * Z zachowaniem porządku
+      * Z częściowym odwzorowaniem
   6. Mutacja
-    * Można parę typów?
+      * Można parę typów?
   7. Powrót do 2
