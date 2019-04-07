@@ -15,6 +15,7 @@ namespace ZP_GA
 
         DataTable Instance;
         BindingSource SBind;
+        List<Tuple<int, int>> Errors;
 
         public Form1()
         {
@@ -130,6 +131,11 @@ namespace ZP_GA
             SBind = new BindingSource();
             SBind.DataSource = Instance;
             InstanceGridView.DataSource = SBind;
+
+            // Kolorowanie tam gdzie bledy
+            Errors = new_instance.Indices;
+            foreach(Tuple<int, int> pair in Errors)
+                InstanceGridView.Rows[pair.Item1].Cells[pair.Item2].Style.BackColor = Color.Red;
 
             ContinueButton1.Enabled = true; // zabezpieczenie przed brakiem instancji
             ModifyButton.Enabled = true; // umozliwienie zmian

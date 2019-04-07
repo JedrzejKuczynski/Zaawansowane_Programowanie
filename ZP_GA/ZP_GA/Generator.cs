@@ -13,8 +13,11 @@ namespace ZP_GA
         // musi byc tutaj, poniewaz Random i Clock i te sprawy
         private static Random random = new Random(); // potrzebne do wypelniania wierszy
         private DataTable instance;
+        private List<Tuple<int, int>> indices;
 
         public DataTable Instance { get { return instance; } }
+
+        public List<Tuple<int, int>> Indices { get { return indices; } }
 
         // m liczba fragmentów
         // n liczba próbek
@@ -58,7 +61,7 @@ namespace ZP_GA
             }
 
             // lista przechowujaca uzyte indeksy do wprowadzania bledow
-            List<Tuple<int, int>> indices = new List<Tuple<int, int>>();
+            indices = new List<Tuple<int, int>>();
 
             for(int i = 0; i < errors; i++) // wprowadzanie bledow
             {
@@ -73,6 +76,7 @@ namespace ZP_GA
                         instance.Rows[row_index][column_index] = 0;
                     else
                         instance.Rows[row_index][column_index] = 1;
+
                 }
 
                 indices.Add(used); // dodaj na liste uzytych
