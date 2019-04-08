@@ -7,14 +7,12 @@
 * Schemat algorytmu
   1. Inicjalizacja populacji
   2. Obliczenie przystosowania i aktualizacja rozwiązania
-      * Przystosowanie będzie trochę trwało, ale chyba nie ma zmiłuj się?
+      * Przystosowanie będzie trochę trwało, ale chyba nie ma zmiłuj się? No nie ma
   3. Warunek stopu
   4. Selekcja
-      * Rankingowa
       * Turniej
   5. Krzyżowanie
       * Z zachowaniem porządku
-      * Z częściowym odwzorowaniem
   6. Mutacja
-      * Można parę typów?
+      * Parę typów
   7. Powrót do 2
