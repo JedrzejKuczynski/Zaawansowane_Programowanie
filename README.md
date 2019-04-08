@@ -2,6 +2,12 @@
 ## Algorytm Genetyczny - Problem 4
 ### TODO
 * Sprawdzanie poprawności instancji po wciśnięciu "Zatwierdź".
+* Generator
+  * Losowanie co najmniej dwóch 1
+  * Macierz 1x1 i inne małe
+  * Poprawne błędy
+  * Ilość maksymalnych błędów/dopuszczalnych
+  * Floor or Ceiling w jedynkach?
 ### Pytania
 * Czy wprowadzanie błędów (generowanych i/lub ręcznych) może zaburzać "consecutive ones"?
 * Schemat algorytmu
