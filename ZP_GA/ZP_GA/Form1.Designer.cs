@@ -146,6 +146,7 @@
             this.LoadButton.TabIndex = 13;
             this.LoadButton.Text = "Wczytaj";
             this.LoadButton.UseVisualStyleBackColor = true;
+            this.LoadButton.Click += new System.EventHandler(this.LoadButton_Click);
             // 
             // SaveButton
             // 
@@ -155,6 +156,7 @@
             this.SaveButton.TabIndex = 12;
             this.SaveButton.Text = "Zapisz";
             this.SaveButton.UseVisualStyleBackColor = true;
+            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
             // ModifyButton
             // 
@@ -174,6 +176,7 @@
             this.GenAndSaveButton.TabIndex = 10;
             this.GenAndSaveButton.Text = "Wygeneruj i zapisz";
             this.GenAndSaveButton.UseVisualStyleBackColor = true;
+            this.GenAndSaveButton.Click += new System.EventHandler(this.GenAndSaveButton_Click);
             // 
             // GeneratorButton
             // 
@@ -210,6 +213,7 @@
             this.ErrorBox.Name = "ErrorBox";
             this.ErrorBox.Size = new System.Drawing.Size(120, 20);
             this.ErrorBox.TabIndex = 6;
+            this.ErrorBox.Text = "0";
             this.ErrorBox.Enter += new System.EventHandler(this.ErrorBox_Enter);
             this.ErrorBox.Leave += new System.EventHandler(this.ErrorBox_Leave);
             // 

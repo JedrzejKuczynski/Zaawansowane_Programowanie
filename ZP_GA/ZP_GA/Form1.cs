@@ -151,5 +151,45 @@ namespace ZP_GA
         {
             InstanceGridView.Enabled = true;
         }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "XML DataTable|*.xml";
+            saveFileDialog1.Title = "Zapisz instancję";
+            saveFileDialog1.ShowDialog();
+
+            if (saveFileDialog1.FileName != "")
+            {
+                Instance.WriteXml(saveFileDialog1.FileName, XmlWriteMode.WriteSchema);
+            }
+        }
+
+        private void LoadButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Filter = "XML DataTable|*.xml";
+            openFileDialog1.Title = "Wczytaj instancję";
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                Instance = new DataTable();
+                Instance.ReadXml(openFileDialog1.FileName);
+
+                SBind = new BindingSource();
+                SBind.DataSource = Instance;
+                InstanceGridView.DataSource = SBind;
+
+                ContinueButton1.Enabled = true; // zabezpieczenie przed brakiem instancji
+                ModifyButton.Enabled = true; // umozliwienie zmian
+                SaveButton.Enabled = true;
+            }
+        }
+
+        private void GenAndSaveButton_Click(object sender, EventArgs e)
+        {
+            GeneratorButton_Click(sender, e);
+            SaveButton_Click(sender, e);
+        }
     }
 }
