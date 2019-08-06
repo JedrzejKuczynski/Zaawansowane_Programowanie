@@ -9,7 +9,6 @@
   * Ilość maksymalnych błędów/dopuszczalnych
   * Floor or Ceiling w jedynkach?
 ### Pytania
-* Czy wprowadzanie błędów (generowanych i/lub ręcznych) może zaburzać "consecutive ones"?
 * Schemat algorytmu
   1. Inicjalizacja populacji
   2. Obliczenie przystosowania i aktualizacja rozwiązania
