@@ -31,6 +31,19 @@ namespace ZP_GA
 
         private void ContinueButton1_Click(object sender, EventArgs e)
         {
+            List<int> allowed = new List<int> {0, 1};
+
+            for (int i = 0; i < Instance.Rows.Count; i++)
+                for (int j = 0; j < Instance.Columns.Count; j++)
+                    if (!allowed.Contains(Convert.ToInt32(Instance.Rows[i][j])))
+                    {
+                        MessageBox.Show("Instancja jest niepoprawna!!! Znajdują się w niej cyfry inne od 0 i 1!!! Wiersz: " + (i+1) + " Kolumna: " + (j+1));
+                        return;
+                    }else
+                    {
+
+                    }
+
             TabControl1.SelectedTab = tabPage2; // zmienienie zakladki
             GenParameters.Enabled = false; // wylaczenie poprzedniej
             InstanceGridView.Enabled = false; // wylaczenie DataGridView
