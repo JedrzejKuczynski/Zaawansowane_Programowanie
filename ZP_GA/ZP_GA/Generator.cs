@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ZP_GA
 {
@@ -24,7 +25,21 @@ namespace ZP_GA
         // fill poziom wypelnienia wiersza
         // errors liczba błędów
 
-        public Generator(int m, int n, double fill, int errors)
+        public static Generator Create(int m, int n, double fill, int errors)
+        {
+            int possible_errors = n / 2;
+            possible_errors *= m / 2;
+
+            if (possible_errors >= errors)
+                return new Generator(m, n, fill, errors);
+            else
+            {
+                MessageBox.Show("Liczba błędów, które mają być wprowadzone przekracza oszacowaną liczbę błędów!!! Oszacowanie: " + possible_errors);
+                return null;
+            }
+        }
+
+        private Generator(int m, int n, double fill, int errors)
         {
             instance = new DataTable("Instancja");
 
@@ -65,12 +80,81 @@ namespace ZP_GA
 
             int errors_counter = 0;
 
-            while(errors_counter < errors) // wprowadzanie bledow
+            while (errors_counter < errors) // wprowadzanie bledow
             {
-                int row_index = random.Next(instance.Rows.Count); // losowanie wiersza
-                int column_index = random.Next(instance.Columns.Count); // losowanie kolumny
+                bool chosen = false;
 
-                Tuple<int, int> used = Tuple.Create(row_index, column_index); // tworzenie krotki indeksow do powyzszej listy
+                while (!chosen)
+                {
+                    int row_index = random.Next(instance.Rows.Count); // losowanie wiersza
+                    int column_index = random.Next(instance.Columns.Count); // losowanie kolumny
+
+                    // DataRow current_row = instance.Rows[row_index];
+
+                    if (column_index + 1 >= instance.Columns.Count) // jesteśmy na prawym skrajnym
+                    {
+                        if (Convert.ToInt32(instance.Rows[row_index][column_index - 1]) == 0 && Convert.ToInt32(instance.Rows[row_index][column_index]) == 0)
+                        {
+                            Tuple<int, int> used = Tuple.Create(row_index, column_index);
+
+                            if (!indices.Contains(used))
+                            {
+                                instance.Rows[row_index][column_index] = 1;
+                                errors_counter++;
+                                indices.Add(used);
+                                chosen = true;
+                            }
+                        }
+                    }
+                    else if (column_index - 1 < 0) // jesteśmy na lewym skrajnym
+                    {
+                        if (Convert.ToInt32(instance.Rows[row_index][column_index + 1]) == 0 && Convert.ToInt32(instance.Rows[row_index][column_index]) == 0)
+                        {
+                            Tuple<int, int> used = Tuple.Create(row_index, column_index);
+
+                            if (!indices.Contains(used))
+                            {
+                                instance.Rows[row_index][column_index] = 1;
+                                errors_counter++;
+                                indices.Add(used);
+                                chosen = true;
+                            }
+                        }
+                    }
+                    else // jesteśmy w środku
+                    {
+                        string configuration = string.Join("", instance.Rows[row_index].ItemArray);
+                        configuration = configuration.Substring(column_index - 1, 3);
+
+                        if (configuration == "111")
+                        {
+                            Tuple<int, int> used = Tuple.Create(row_index, column_index);
+
+                            if (!indices.Contains(used))
+                            {
+                                instance.Rows[row_index][column_index] = 0;
+                                errors_counter++;
+                                indices.Add(used);
+                                chosen = true;
+                            }
+                        }
+                        else if (configuration == "000")
+                        {
+                            Tuple<int, int> used = Tuple.Create(row_index, column_index);
+
+                            if (!indices.Contains(used))
+                            {
+                                instance.Rows[row_index][column_index] = 1;
+                                errors_counter++;
+                                indices.Add(used);
+                                chosen = true;
+                            }
+                        }
+                    }
+                }
+            }
+
+                /* Tuple<int, int> used = Tuple.Create(row_index, column_index); // tworzenie krotki indeksow do powyzszej listy
 
                 if (!indices.Contains(used)) // jezeli blad nie byl wprowadzany w tej komorce
                 {
@@ -81,10 +165,9 @@ namespace ZP_GA
 
                     indices.Add(used); // dodaj na liste uzytych
                     errors_counter++;
-                }
+                } */
             }
-
+            
         }
 
     }
-}

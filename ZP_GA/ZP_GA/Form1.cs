@@ -121,25 +121,30 @@ namespace ZP_GA
 
         private void GeneratorButton_Click(object sender, EventArgs e)
         {
+            InstanceGridView.Enabled = false;
+
             int fragments = Int32.Parse(FragmentBox.Text);
             int samples = Int32.Parse(SampleBox.Text);
             double fill = Convert.ToDouble(Math.Round(FillNumeric.Value, 0)) / 100;
             int errors = Int32.Parse(ErrorBox.Text);
-            Generator new_instance = new Generator(fragments, samples, fill, errors);
+            Generator new_instance = Generator.Create(fragments, samples, fill, errors);
 
-            Instance = new_instance.Instance.Copy();
-            SBind = new BindingSource();
-            SBind.DataSource = Instance;
-            InstanceGridView.DataSource = SBind;
+            if (new_instance != null)
+            {
+                Instance = new_instance.Instance.Copy();
+                SBind = new BindingSource();
+                SBind.DataSource = Instance;
+                InstanceGridView.DataSource = SBind;
 
-            // Kolorowanie tam gdzie bledy
-            Errors = new_instance.Indices;
-            foreach(Tuple<int, int> pair in Errors)
-                InstanceGridView.Rows[pair.Item1].Cells[pair.Item2].Style.BackColor = Color.Red;
+                // Kolorowanie tam gdzie bledy
+                Errors = new_instance.Indices;
+                foreach (Tuple<int, int> pair in Errors)
+                    InstanceGridView.Rows[pair.Item1].Cells[pair.Item2].Style.BackColor = Color.Red;
 
-            ContinueButton1.Enabled = true; // zabezpieczenie przed brakiem instancji
-            ModifyButton.Enabled = true; // umozliwienie zmian
-            SaveButton.Enabled = true;
+                ContinueButton1.Enabled = true; // zabezpieczenie przed brakiem instancji
+                ModifyButton.Enabled = true; // umozliwienie zmian
+                SaveButton.Enabled = true;
+            }
         }
 
         private void InstanceGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
