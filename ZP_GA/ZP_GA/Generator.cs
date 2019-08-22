@@ -153,21 +153,7 @@ namespace ZP_GA
                     }
                 }
             }
-
-                /* Tuple<int, int> used = Tuple.Create(row_index, column_index); // tworzenie krotki indeksow do powyzszej listy
-
-                if (!indices.Contains(used)) // jezeli blad nie byl wprowadzany w tej komorce
-                {
-                    if (Convert.ToInt32(instance.Rows[row_index][column_index]) == 1) // odpowiednio go wprowadz
-                        instance.Rows[row_index][column_index] = 0;
-                    else
-                        instance.Rows[row_index][column_index] = 1;
-
-                    indices.Add(used); // dodaj na liste uzytych
-                    errors_counter++;
-                } */
-            }
-            
         }
-
+            
     }
+}

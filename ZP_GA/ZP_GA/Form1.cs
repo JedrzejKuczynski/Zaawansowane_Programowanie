@@ -48,6 +48,9 @@ namespace ZP_GA
             GenParameters.Enabled = false; // wylaczenie poprzedniej
             InstanceGridView.Enabled = false; // wylaczenie DataGridView
             ((Control)tabPage2).Enabled = true; // wlaczenie aktualnej
+            TimeBox.Enabled = false;
+            ImprovementBox.Enabled = false;
+            ContinueButton2.Enabled = false;
         }
 
         private void ContinueButton2_Click(object sender, EventArgs e)
@@ -65,12 +68,16 @@ namespace ZP_GA
                     {
                         TextBox t = (c as TextBox);
                         NumericUpDown n = (c as NumericUpDown);
+                        RadioButton r = (c as RadioButton);
 
                         if (t != null)
                             t.Text = "";
 
                         if (n != null)
                             n.Value = n.Minimum;
+
+                        if (r != null)
+                            r.Checked = false;
                     }
                 }
             }
@@ -81,6 +88,7 @@ namespace ZP_GA
             SaveButton.Enabled = false;
             InstanceGridView.Enabled = false;
             GeneratorButton.Enabled = false;
+            ErrorBox.Text = "0";
 
         }
 
@@ -208,6 +216,12 @@ namespace ZP_GA
         {
             GeneratorButton_Click(sender, e);
             SaveButton_Click(sender, e);
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            TimeBox.Enabled = true;
+            ImprovementBox.Enabled = true;
         }
     }
 }
