@@ -8,6 +8,24 @@ using System.Threading.Tasks;
 
 namespace ZP_GA
 {
+    // Tasowanie Fisher'a-Yates'a z modyfikacją Durstenfeld'a
+    // Nie znalazłem lepszego pomysłu/sposobu na przetasowanie listy
+    static class ShuffleExtension
+    {
+        private static Random random_shuffle = new Random();
+
+        public static void Shuffle<T>(this IList<T> list)
+        {
+            for (int i = list.Count; i > 1; i--)
+            {
+                int j = random_shuffle.Next(i);
+                T value = list[j];
+                list[j] = list[i];
+                list[i] = value;
+            }
+        }
+    }
+
     class GA
     {
         private static Random random = new Random();
@@ -26,6 +44,31 @@ namespace ZP_GA
         private float crossing_probability;
         private float mutation_probability;
 
+        public GA(DataTable instance, int pop_size, int gens, int time, int iterations, int tournament, float cross, float mut)
+        {
+            original_instance = instance;
+            population_size = pop_size;
+            generations = gens;
+            time_threshold = time;
+            iterations_threshold = iterations;
+            tournament_size = tournament;
+            crossing_probability = cross;
+            mutation_probability = mut;
+
+            // inicjalizacja populacji
+
+            for (int i = 0; i < population_size; i++)
+            {
+                List<string> random_order = get_random_order();
+                Individual new_individual = new Individual(original_instance, random_order);
+                new_individual.calculate_fitness();
+                population.Add(new_individual);
+                individuals_fitness.Add(new_individual.Fitness);
+            }
+
+            best_individual = population[individuals_fitness.IndexOf(individuals_fitness.Min())];
+        }
+
         // No nie znalazlem jakiejs biblioteki
         List<string> get_random_order()
         {
@@ -43,6 +86,58 @@ namespace ZP_GA
             return random_order_list;
         }
 
+        List<Individual> selection(List<Individual> pop)
+        {
+            List<Individual> selected = new List<Individual>();
+
+            for(int i = 0; i < population_size; i++)
+            {
+                HashSet<Individual> tournament = new HashSet<Individual>();
+
+                for (int t = 0; t < tournament_size; t++)
+                    while (!tournament.Add(pop[random.Next(population_size)]));
+
+                Individual tournament_winner = tournament.OrderBy(participant => participant.Fitness).First();  // Spoko sprawa ten LINQ
+                selected.Add(tournament_winner);
+            }
+
+            return selected;
+        }
+
+        List<Individual> crossing_over(List<Individual> selected)
+        {
+            List<Individual> new_population = new List<Individual>();
+
+            List<Tuple<Individual, Individual>> parents = new List<Tuple<Individual, Individual>>();
+            List<int> indices = Enumerable.Range(0, population_size).ToList();
+            indices.Shuffle();
+
+            for (int i = 0; i < population_size; i += 2)
+            {
+                Individual parent1 = selected[indices[i]];
+                Individual parent2 = selected[indices[i + 1]];
+
+                Tuple<Individual, Individual> pair = new Tuple<Individual, Individual>(parent1, parent2);
+                parents.Add(pair);
+            }
+
+            foreach(Tuple<Individual, Individual> pair in parents)
+            {
+                if(random.NextDouble() <= crossing_probability)
+                {
+                    // TUTAJ KRZYŻOWANIE Z ZACHOWANIEM PORZĄDKU
+                }
+                else
+                {
+                    new_population.Add(pair.Item1);
+                    new_population.Add(pair.Item2);
+                }
+            }
+            
+
+            return new_population;
+        }
+
         // Główna pętla - tu się dzieje magia!!!
         // Trochę się powtarza, ale co tam. Lepszego pomysłu nie mam
         public void life_uh_finds_a_way()
@@ -57,7 +152,7 @@ namespace ZP_GA
                 {
                     Stopwatch iteration = Stopwatch.StartNew();
 
-                    if(iteration_counter < iterations_threshold)
+                    if (iteration_counter < iterations_threshold)
                     {
 
                         // Na razie tak. Zobaczymy co potem z ta sychronizacja
@@ -91,6 +186,8 @@ namespace ZP_GA
                         iteration.Stop();
                         running_time -= iteration.ElapsedMilliseconds;
                     }
+                    else
+                        return;
                 }
 
             } else if(time_threshold > 0)
@@ -193,30 +290,6 @@ namespace ZP_GA
                         best_individual = candidate_individual;
                 }
             }
-        }
-
-        public GA(DataTable instance, int pop_size, int gens, int time, int iterations, int tournament, float cross, float mut)
-        {
-            original_instance = instance;
-            population_size = pop_size;
-            generations = gens;
-            time_threshold = time;
-            iterations_threshold = iterations;
-            tournament_size = tournament;
-            crossing_probability = cross;
-            mutation_probability = mut;
-
-            // inicjalizacja populacji
-
-            for(int i = 0; i < population_size; i++)
-            {
-                List<string> random_order = get_random_order();
-                Individual new_individual = new Individual(original_instance, random_order);
-                population.Add(new_individual);
-                individuals_fitness.Add(new_individual.Fitness);
-            }
-
-            best_individual = population[individuals_fitness.IndexOf(individuals_fitness.Min())];
         }
 
     }
