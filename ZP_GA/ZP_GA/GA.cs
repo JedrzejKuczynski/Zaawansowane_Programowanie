@@ -125,7 +125,70 @@ namespace ZP_GA
             {
                 if(random.NextDouble() <= crossing_probability)
                 {
-                    // TUTAJ KRZYŻOWANIE Z ZACHOWANIEM PORZĄDKU
+                    List<string> parent1_genome = pair.Item1.Genome;
+                    List<string> parent2_genome = pair.Item2.Genome;
+                    int genome_length = pair.Item1.Genome.Count;
+
+                    int cross_point1 = random.Next(genome_length);
+                    int cross_point2 = random.Next(genome_length);
+
+                    while (cross_point1 == cross_point2)
+                        cross_point2 = random.Next(genome_length);
+
+                    int cross_start = Math.Min(cross_point1, cross_point2);
+                    int cross_end = Math.Max(cross_point1, cross_point2);
+
+                    List<string> child1_genome = new List<string>(genome_length);
+                    List<string> child2_genome = new List<string>(genome_length);
+
+                    child1_genome.AddRange(parent1_genome.Skip(cross_start).Take(cross_end - cross_start + 1));
+                    child2_genome.AddRange(parent2_genome.Skip(cross_start).Take(cross_end - cross_start + 1));
+
+                    // Pytanie czy da się to zrobic w jednej pętli a nie dwóch
+
+                    int i = cross_end + 1;
+                    int insert_position = cross_end + 1;
+
+                    while(child1_genome.Count != genome_length)
+                    {
+                        if (!child1_genome.Contains(parent2_genome[i]))
+                        {
+                            child1_genome.Insert(insert_position, parent2_genome[i]);
+                            insert_position++;
+                        }
+                        i++;
+
+                        if(i >= genome_length)
+                        {
+                            i = 0;
+                            insert_position = 0;
+                        }
+                    }
+
+                    i = cross_end + 1;
+                    insert_position = cross_end + 1;
+
+                    while (child2_genome.Count != genome_length)
+                    {
+                        if (!child2_genome.Contains(parent1_genome[i]))
+                        {
+                            child2_genome.Insert(insert_position, parent1_genome[i]);
+                            insert_position++;
+                        }
+                        i++;
+
+                        if(i >= genome_length)
+                        {
+                            i = 0;
+                            insert_position = 0;
+                        }
+                    }
+
+                    Individual child1 = new Individual(original_instance, child1_genome);
+                    Individual child2 = new Individual(original_instance, child2_genome);
+
+                    new_population.Add(child1);
+                    new_population.Add(child2);
                 }
                 else
                 {
@@ -134,7 +197,6 @@ namespace ZP_GA
                 }
             }
             
-
             return new_population;
         }
 
