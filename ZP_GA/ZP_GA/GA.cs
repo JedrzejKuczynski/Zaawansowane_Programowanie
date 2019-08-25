@@ -57,10 +57,11 @@ namespace ZP_GA
 
             // inicjalizacja populacji
 
+            List<string> random_order = (from DataColumn col in original_instance.Columns
+                                         select col.ColumnName).ToList(); // LINQ
+
             for (int i = 0; i < population_size; i++)
             {
-                List<string> random_order = (from DataColumn col in original_instance.Columns
-                                             select col.ColumnName).ToList(); // LINQ
                 random_order.Shuffle();
                 Individual new_individual = new Individual(original_instance, random_order);
                 new_individual.calculate_fitness();
