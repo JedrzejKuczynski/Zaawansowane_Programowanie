@@ -59,7 +59,9 @@ namespace ZP_GA
 
             for (int i = 0; i < population_size; i++)
             {
-                List<string> random_order = get_random_order();
+                List<string> random_order = (from DataColumn col in original_instance.Columns
+                                             select col.ColumnName).ToList(); // LINQ
+                random_order.Shuffle();
                 Individual new_individual = new Individual(original_instance, random_order);
                 new_individual.calculate_fitness();
                 population.Add(new_individual);
@@ -70,7 +72,7 @@ namespace ZP_GA
         }
 
         // No nie znalazlem jakiejs biblioteki
-        List<string> get_random_order()
+        /* List<string> get_random_order()
         {
             HashSet<string> random_order_hash = new HashSet<string>();
             List<string> column_names = new List<string>();
@@ -84,7 +86,7 @@ namespace ZP_GA
             List<string> random_order_list = random_order_hash.ToList();
 
             return random_order_list;
-        }
+        } */
 
         List<Individual> selection(List<Individual> pop)
         {
