@@ -163,42 +163,58 @@ namespace ZP_GA
 
                     int i = cross_end + 1;
                     int insert_position = child1_genome.Count;
+                    int insert_threshold = genome_length - i;
+                    int counter = 0;
 
                     while(child1_genome.Count != genome_length)
                     {
                         if (i >= genome_length)
-                        {
                             i = 0;
-                            insert_position = 0;
-                        }
 
                         if (!child1_genome.Contains(parent2_genome[i]))
                         {
                             child1_genome.Insert(insert_position, parent2_genome[i]);
                             insert_position++;
+                            counter++;
+                            i++;
+                        } else
+                            i++;
+
+                        if (counter >= insert_threshold)
+                        {
+                            insert_position = 0;
+                            counter = 0;
+                            insert_threshold = genome_length - child1_genome.Count;
                         }
-                        i++;
 
 
                     }
 
                     i = cross_end + 1;
                     insert_position = child2_genome.Count;
+                    insert_threshold = genome_length - i;
+                    counter = 0;
 
                     while (child2_genome.Count != genome_length)
                     {
                         if (i >= genome_length)
-                        {
                             i = 0;
-                            insert_position = 0;
-                        }
 
                         if (!child2_genome.Contains(parent1_genome[i]))
                         {
                             child2_genome.Insert(insert_position, parent1_genome[i]);
                             insert_position++;
+                            counter++;
+                            i++;
+                        } else
+                            i++;
+
+                        if (counter >= insert_threshold)
+                        {
+                            insert_position = 0;
+                            counter = 0;
+                            insert_threshold = genome_length - child2_genome.Count;
                         }
-                        i++;
                     }
 
                     Individual child1 = new Individual(original_instance.Copy(), child1_genome);
@@ -288,7 +304,6 @@ namespace ZP_GA
             if (time_threshold > 0 && iterations_threshold > 0)
             {
                 float running_time = time_threshold * 60000;
-                Individual previous_individual = best_individual;
                 int iteration_counter = 0;
 
                 for(int g = 0; g < generations; g++)
@@ -316,15 +331,14 @@ namespace ZP_GA
 
                         Individual candidate_individual = population[individuals_fitness.IndexOf(individuals_fitness.Min())];
 
+                        if (best_individual.Fitness == candidate_individual.Fitness)
+                            iteration_counter++;
+
                         if (candidate_individual.Fitness < best_individual.Fitness)
                         {
-                            previous_individual = best_individual;
                             best_individual = candidate_individual;
                             iteration_counter = 0;
                         }
-
-                        if (best_individual.Fitness == previous_individual.Fitness)
-                            iteration_counter++;
 
                         iteration.Stop();
                         running_time -= iteration.ElapsedMilliseconds;
@@ -367,7 +381,6 @@ namespace ZP_GA
                 }
             } else if(iterations_threshold > 0)
             {
-                Individual previous_individual = best_individual;
                 int iteration_counter = 0;
 
                 for(int g = 0; g < generations; g++)
@@ -392,15 +405,14 @@ namespace ZP_GA
 
                         Individual candidate_individual = population[individuals_fitness.IndexOf(individuals_fitness.Min())];
 
+                        if (best_individual.Fitness == candidate_individual.Fitness)
+                            iteration_counter++;
+
                         if (candidate_individual.Fitness < best_individual.Fitness)
                         {
-                            previous_individual = best_individual;
                             best_individual = candidate_individual;
                             iteration_counter = 0;
                         }
-
-                        if (best_individual.Fitness == previous_individual.Fitness)
-                            iteration_counter++;
                     }
                     else
                         return;

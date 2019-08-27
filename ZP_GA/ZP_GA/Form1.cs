@@ -66,7 +66,7 @@ namespace ZP_GA
             int iterations = 0;
 
             if (ImprovementBox.Text != "" || ImprovementBox.Text != "0")
-                iterations = Int32.Parse(TimeBox.Text);
+                iterations = Int32.Parse(ImprovementBox.Text);
 
             int tournament_size = Int32.Parse(TournamentBox.Text);
             double cross_prob = Convert.ToDouble(Math.Round(CrossingNumeric.Value, 0)) / 100;
