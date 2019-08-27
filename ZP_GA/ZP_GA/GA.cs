@@ -18,7 +18,7 @@ namespace ZP_GA
         {
             for (int i = list.Count - 1; i > 1; i--)
             {
-                int j = random_shuffle.Next(i);
+                int j = random_shuffle.Next(i + 1);
                 T value = list[j];
                 list[j] = list[i];
                 list[i] = value;
