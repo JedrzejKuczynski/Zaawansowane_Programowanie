@@ -50,12 +50,35 @@ namespace ZP_GA
             ((Control)tabPage2).Enabled = true; // wlaczenie aktualnej
             TimeBox.Enabled = false;
             ImprovementBox.Enabled = false;
-            ContinueButton2.Enabled = false;
+            // ContinueButton2.Enabled = false;
         }
 
         private void ContinueButton2_Click(object sender, EventArgs e)
         {
-            TabControl1.SelectedTab = tabPage1; // powrot do pierwszej zakladki
+
+            int pop_size = Int32.Parse(PopSizeBox.Text);
+            int gens = Int32.Parse(GenNumberBox.Text);
+            int time = 0;
+
+            if (TimeBox.Text != "" || TimeBox.Text != "0")
+                time = Int32.Parse(TimeBox.Text);
+
+            int iterations = 0;
+
+            if (ImprovementBox.Text != "" || ImprovementBox.Text != "0")
+                iterations = Int32.Parse(TimeBox.Text);
+
+            int tournament_size = Int32.Parse(TournamentBox.Text);
+            double cross_prob = Convert.ToDouble(Math.Round(CrossingNumeric.Value, 0)) / 100;
+            double mut_prob = Convert.ToDouble(Math.Round(MutProbNumeric.Value, 0)) / 100;
+
+            GA genetic_algorithm = new GA(Instance.Copy(), pop_size, gens, time, iterations, tournament_size, cross_prob, mut_prob);
+            genetic_algorithm.life_uh_finds_a_way();
+            MessageBox.Show("FINISHED!!! NAJLEPSZE ROZWIĄZANIE: " + genetic_algorithm.Best.Fitness);
+
+            // KOD CZYSZCZĄCY!!! TRZA PRZENIEŚĆ DO TRZECIEJ ZAKŁADKI
+
+            /* TabControl1.SelectedTab = tabPage1; // powrot do pierwszej zakladki
             GenParameters.Enabled = true; // wlaczenie jej
             ((Control)tabPage2).Enabled = false; // wylaczenie nastepnej
             ContinueButton1.Enabled = false; // zabezpieczenie przed brakiem instancji
@@ -88,7 +111,7 @@ namespace ZP_GA
             SaveButton.Enabled = false;
             InstanceGridView.Enabled = false;
             GeneratorButton.Enabled = false;
-            ErrorBox.Text = "0";
+            ErrorBox.Text = "0"; */
 
         }
 

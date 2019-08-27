@@ -37,11 +37,11 @@ namespace ZP_GA
             }
         }
 
-        public void set_genome_order(List<string> order)
+        public void set_genome_order()
         {
             int column_index = 0;
 
-            foreach(string column_name in order)
+            foreach(string column_name in genome)
             {
                 solution.Columns[column_name].SetOrdinal(column_index);
                 column_index++;
@@ -109,7 +109,7 @@ namespace ZP_GA
             solution = matrix;
             genome = order;
             fitness = 0;
-            set_genome_order(genome);
+            set_genome_order();
         }
     }
 }

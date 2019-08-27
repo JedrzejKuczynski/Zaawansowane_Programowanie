@@ -16,7 +16,7 @@ namespace ZP_GA
 
         public static void Shuffle<T>(this IList<T> list)
         {
-            for (int i = list.Count; i > 1; i--)
+            for (int i = list.Count - 1; i > 1; i--)
             {
                 int j = random_shuffle.Next(i);
                 T value = list[j];
@@ -41,10 +41,18 @@ namespace ZP_GA
         private int time_threshold;
         private int iterations_threshold;
         private int tournament_size;
-        private float crossing_probability;
-        private float mutation_probability;
+        private double crossing_probability;
+        private double mutation_probability;
 
-        public GA(DataTable instance, int pop_size, int gens, int time, int iterations, int tournament, float cross, float mut)
+        public Individual Best
+        {
+            get
+            {
+                return best_individual;
+            }
+        }
+
+        public GA(DataTable instance, int pop_size, int gens, int time, int iterations, int tournament, double cross, double mut)
         {
             original_instance = instance;
             population_size = pop_size;
@@ -54,6 +62,8 @@ namespace ZP_GA
             tournament_size = tournament;
             crossing_probability = cross;
             mutation_probability = mut;
+            population = new List<Individual>(population_size);
+            individuals_fitness = new List<int>(population_size);
 
             // inicjalizacja populacji
 
@@ -63,7 +73,7 @@ namespace ZP_GA
             for (int i = 0; i < population_size; i++)
             {
                 random_order.Shuffle();
-                Individual new_individual = new Individual(original_instance, random_order);
+                Individual new_individual = new Individual(original_instance.Copy(), random_order.ToList());
                 new_individual.calculate_fitness();
                 population.Add(new_individual);
                 individuals_fitness.Add(new_individual.Fitness);
@@ -92,13 +102,15 @@ namespace ZP_GA
         List<Individual> selection(List<Individual> pop)
         {
             List<Individual> selected = new List<Individual>();
+            List<int> indices = Enumerable.Range(0, population_size).ToList();
 
-            for(int i = 0; i < population_size; i++)
+            for (int i = 0; i < population_size; i++)
             {
-                HashSet<Individual> tournament = new HashSet<Individual>();
+                List<Individual> tournament = new List<Individual>();
+                indices.Shuffle();
+                int random_start = random.Next(population_size - tournament_size + 1);
 
-                for (int t = 0; t < tournament_size; t++)
-                    while (!tournament.Add(pop[random.Next(population_size)]));
+                tournament.AddRange(pop.Skip(random_start).Take(tournament_size));
 
                 Individual tournament_winner = tournament.OrderBy(participant => participant.Fitness).First();  // Spoko sprawa ten LINQ
                 selected.Add(tournament_winner);
@@ -150,10 +162,16 @@ namespace ZP_GA
                     // Pytanie czy da się to zrobic w jednej pętli a nie dwóch
 
                     int i = cross_end + 1;
-                    int insert_position = cross_end + 1;
+                    int insert_position = child1_genome.Count;
 
                     while(child1_genome.Count != genome_length)
                     {
+                        if (i >= genome_length)
+                        {
+                            i = 0;
+                            insert_position = 0;
+                        }
+
                         if (!child1_genome.Contains(parent2_genome[i]))
                         {
                             child1_genome.Insert(insert_position, parent2_genome[i]);
@@ -161,34 +179,30 @@ namespace ZP_GA
                         }
                         i++;
 
-                        if(i >= genome_length)
+
+                    }
+
+                    i = cross_end + 1;
+                    insert_position = child2_genome.Count;
+
+                    while (child2_genome.Count != genome_length)
+                    {
+                        if (i >= genome_length)
                         {
                             i = 0;
                             insert_position = 0;
                         }
-                    }
 
-                    i = cross_end + 1;
-                    insert_position = cross_end + 1;
-
-                    while (child2_genome.Count != genome_length)
-                    {
                         if (!child2_genome.Contains(parent1_genome[i]))
                         {
                             child2_genome.Insert(insert_position, parent1_genome[i]);
                             insert_position++;
                         }
                         i++;
-
-                        if(i >= genome_length)
-                        {
-                            i = 0;
-                            insert_position = 0;
-                        }
                     }
 
-                    Individual child1 = new Individual(original_instance, child1_genome);
-                    Individual child2 = new Individual(original_instance, child2_genome);
+                    Individual child1 = new Individual(original_instance.Copy(), child1_genome);
+                    Individual child2 = new Individual(original_instance.Copy(), child2_genome);
 
                     new_population.Add(child1);
                     new_population.Add(child2);
@@ -201,6 +215,70 @@ namespace ZP_GA
             }
             
             return new_population;
+        }
+
+        List<Individual> mutation(List<Individual> pop)
+        {
+            List<Individual> mutated = new List<Individual>();
+
+            foreach(Individual ind in pop)
+            {
+                if (random.NextDouble() <= mutation_probability)
+                {
+                    int mutation_type = random.Next(3);
+                    int genome_length = ind.Genome.Count;
+
+                    if(mutation_type == 0) // przestawienie elementu
+                    {
+                        int mutated_index = random.Next(genome_length);
+                        int new_place = random.Next(genome_length);
+
+                        while (mutated_index == new_place)
+                            new_place = random.Next(genome_length);
+
+                        string mutation = ind.Genome[mutated_index];
+                        ind.Genome.RemoveAt(mutated_index);
+                        ind.Genome.Insert(new_place, mutation);
+                        ind.set_genome_order();
+
+                        mutated.Add(ind);
+                    } else if(mutation_type == 1) // zamiana elementów
+                    {
+                        int mutated_first = random.Next(genome_length);
+                        int mutated_second = random.Next(genome_length);
+
+                        while (mutated_first == mutated_second)
+                            mutated_second = random.Next(genome_length);
+
+                        string first = ind.Genome[mutated_first];
+                        ind.Genome[mutated_first] = ind.Genome[mutated_second];
+                        ind.Genome[mutated_second] = first;
+
+                        ind.set_genome_order();
+
+                        mutated.Add(ind);
+                    }else // odwrócenie
+                    {
+                        int random_point1 = random.Next(genome_length);
+                        int random_point2 = random.Next(genome_length);
+
+                        while (random_point1 == random_point2)
+                            random_point2 = random.Next(genome_length);
+
+                        int reverse_start = Math.Min(random_point1, random_point2);
+                        int reverse_end = Math.Max(random_point1, random_point2);
+
+                        ind.Genome.Reverse(reverse_start, reverse_end - reverse_start + 1);
+                        ind.set_genome_order();
+
+                        mutated.Add(ind);
+                    }
+                }
+                else
+                    mutated.Add(ind);
+            }
+
+            return mutated;
         }
 
         // Główna pętla - tu się dzieje magia!!!
