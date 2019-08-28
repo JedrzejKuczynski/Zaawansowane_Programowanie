@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,6 +17,19 @@ namespace ZP_GA
         DataTable Instance;
         BindingSource SBind;
         List<Tuple<int, int>> Errors;
+
+        private Thread ga_thread;
+
+        private void update_form(int current_gen, int current_value)
+        {
+            base.Invoke((Action) delegate
+            {
+                progressBar1.Value = current_gen;
+
+                // TUTAJ WYKRES
+            });
+        }
+
 
         public Form1()
         {
@@ -73,8 +87,33 @@ namespace ZP_GA
             double mut_prob = Convert.ToDouble(Math.Round(MutProbNumeric.Value, 0)) / 100;
 
             GA genetic_algorithm = new GA(Instance.Copy(), pop_size, gens, time, iterations, tournament_size, cross_prob, mut_prob);
-            genetic_algorithm.life_uh_finds_a_way();
-            MessageBox.Show("FINISHED!!! NAJLEPSZE ROZWIĄZANIE: " + genetic_algorithm.Best.Fitness);
+
+            progressBar1.Minimum = 0;
+            progressBar1.Maximum = gens - 1;
+
+            genetic_algorithm.OnProgressUpdate += update_form;
+
+            BackgroundWorker bw = new BackgroundWorker();
+            bw.WorkerReportsProgress = true;
+            bw.DoWork += new DoWorkEventHandler(
+            delegate (object o, DoWorkEventArgs args)
+            {
+                BackgroundWorker b = o as BackgroundWorker;
+
+                GA ga = args.Argument as GA;
+
+                ga.life_uh_finds_a_way();
+            }
+            );
+
+
+            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(
+            delegate (object o, RunWorkerCompletedEventArgs args)
+            {
+                MessageBox.Show("FINISHED!!! NAJLEPSZE ROZWIĄZANIE: " + genetic_algorithm.Best.Fitness);
+            });
+
+            bw.RunWorkerAsync(genetic_algorithm);
 
             // KOD CZYSZCZĄCY!!! TRZA PRZENIEŚĆ DO TRZECIEJ ZAKŁADKI
 

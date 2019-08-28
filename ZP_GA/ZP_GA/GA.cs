@@ -28,6 +28,9 @@ namespace ZP_GA
 
     class GA
     {
+        public delegate void ProgressUpdate(int current_gen, int current_value);
+        public event ProgressUpdate OnProgressUpdate;
+
         private static Random random = new Random();
 
         private readonly DataTable original_instance;
@@ -38,6 +41,7 @@ namespace ZP_GA
         private Individual best_individual;
         private int population_size;
         private int generations;
+        private int current_generation;
         private int time_threshold;
         private int iterations_threshold;
         private int tournament_size;
@@ -52,11 +56,20 @@ namespace ZP_GA
             }
         }
 
+        public int CurrentGen
+        {
+            get
+            {
+                return current_generation;
+            }
+        }
+
         public GA(DataTable instance, int pop_size, int gens, int time, int iterations, int tournament, double cross, double mut)
         {
             original_instance = instance;
             population_size = pop_size;
             generations = gens;
+            current_generation = 0;
             time_threshold = time;
             iterations_threshold = iterations;
             tournament_size = tournament;
@@ -81,23 +94,6 @@ namespace ZP_GA
 
             best_individual = population[individuals_fitness.IndexOf(individuals_fitness.Min())];
         }
-
-        // No nie znalazlem jakiejs biblioteki
-        /* List<string> get_random_order()
-        {
-            HashSet<string> random_order_hash = new HashSet<string>();
-            List<string> column_names = new List<string>();
-
-            foreach (DataColumn column in original_instance.Columns)
-                column_names.Add(column.ColumnName);
-
-            for (int i = 0; i < column_names.Count; i++)
-                while (!random_order_hash.Add(column_names[random.Next(column_names.Count)]));
-
-            List<string> random_order_list = random_order_hash.ToList();
-
-            return random_order_list;
-        } */
 
         List<Individual> selection(List<Individual> pop)
         {
@@ -308,6 +304,7 @@ namespace ZP_GA
 
                 for(int g = 0; g < generations; g++)
                 {
+                    current_generation = g;
                     Stopwatch iteration = Stopwatch.StartNew();
 
                     if (iteration_counter < iterations_threshold)
@@ -345,6 +342,8 @@ namespace ZP_GA
                     }
                     else
                         return;
+
+                    OnProgressUpdate(g, best_individual.Fitness);
                 }
 
             } else if(time_threshold > 0)
@@ -353,6 +352,7 @@ namespace ZP_GA
 
                 for(int g = 0; g < generations; g++)
                 {
+                    current_generation = g;
                     Stopwatch iteration = Stopwatch.StartNew();
 
                     // Na razie tak. Zobaczymy co potem z ta sychronizacja
@@ -378,6 +378,7 @@ namespace ZP_GA
 
                     iteration.Stop();
                     running_time -= iteration.ElapsedMilliseconds;
+                    OnProgressUpdate(g, best_individual.Fitness);
                 }
             } else if(iterations_threshold > 0)
             {
@@ -385,6 +386,7 @@ namespace ZP_GA
 
                 for(int g = 0; g < generations; g++)
                 {
+                    current_generation = g;
                     if (iteration_counter < iterations_threshold)
                     {
                         // Na razie tak. Zobaczymy co potem z ta sychronizacja
@@ -416,12 +418,15 @@ namespace ZP_GA
                     }
                     else
                         return;
+
+                    OnProgressUpdate(g, best_individual.Fitness);
                 }
             }
             else
             {
                 for(int g = 0; g < generations; g++)
                 {
+                    current_generation = g;
 
                     // Na razie tak. Zobaczymy co potem z ta sychronizacja
                     if (best_individual.Fitness == 0)
@@ -443,6 +448,8 @@ namespace ZP_GA
 
                     if (candidate_individual.Fitness < best_individual.Fitness)
                         best_individual = candidate_individual;
+
+                    OnProgressUpdate(g, best_individual.Fitness);
                 }
             }
         }

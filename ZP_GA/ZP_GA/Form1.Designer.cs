@@ -50,22 +50,23 @@
             this.FragmentBox = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.HeurParameters = new System.Windows.Forms.Panel();
-            this.ContinueButton2 = new System.Windows.Forms.Button();
-            this.ImprovementBox = new System.Windows.Forms.TextBox();
-            this.ImprovementLabel = new System.Windows.Forms.Label();
-            this.TournamentLabel = new System.Windows.Forms.Label();
-            this.TimeBox = new System.Windows.Forms.TextBox();
-            this.TournamentBox = new System.Windows.Forms.TextBox();
-            this.TimeLabel = new System.Windows.Forms.Label();
-            this.CrossingLabel = new System.Windows.Forms.Label();
-            this.GenNumberBox = new System.Windows.Forms.TextBox();
-            this.CrossingNumeric = new System.Windows.Forms.NumericUpDown();
-            this.GenNumberLabel = new System.Windows.Forms.Label();
-            this.PopSizeBox = new System.Windows.Forms.TextBox();
-            this.MutProbLabel = new System.Windows.Forms.Label();
             this.MutProbNumeric = new System.Windows.Forms.NumericUpDown();
             this.PopSizeLabel = new System.Windows.Forms.Label();
+            this.MutProbLabel = new System.Windows.Forms.Label();
+            this.CrossingNumeric = new System.Windows.Forms.NumericUpDown();
+            this.GenNumberLabel = new System.Windows.Forms.Label();
+            this.CrossingLabel = new System.Windows.Forms.Label();
+            this.ContinueButton2 = new System.Windows.Forms.Button();
+            this.TimeBox = new System.Windows.Forms.TextBox();
+            this.TournamentBox = new System.Windows.Forms.TextBox();
+            this.ImprovementBox = new System.Windows.Forms.TextBox();
+            this.TimeLabel = new System.Windows.Forms.Label();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.TournamentLabel = new System.Windows.Forms.Label();
+            this.PopSizeBox = new System.Windows.Forms.TextBox();
+            this.ImprovementLabel = new System.Windows.Forms.Label();
+            this.GenNumberBox = new System.Windows.Forms.TextBox();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.TabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.InstanceView.SuspendLayout();
@@ -74,8 +75,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.FillNumeric)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.HeurParameters.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CrossingNumeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MutProbNumeric)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CrossingNumeric)).BeginInit();
             this.SuspendLayout();
             // 
             // TabControl1
@@ -315,6 +316,7 @@
             // HeurParameters
             // 
             this.HeurParameters.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.HeurParameters.Controls.Add(this.progressBar1);
             this.HeurParameters.Controls.Add(this.MutProbNumeric);
             this.HeurParameters.Controls.Add(this.PopSizeLabel);
             this.HeurParameters.Controls.Add(this.MutProbLabel);
@@ -337,81 +339,30 @@
             this.HeurParameters.Size = new System.Drawing.Size(786, 418);
             this.HeurParameters.TabIndex = 0;
             // 
-            // ContinueButton2
+            // MutProbNumeric
             // 
-            this.ContinueButton2.Location = new System.Drawing.Point(705, 389);
-            this.ContinueButton2.Name = "ContinueButton2";
-            this.ContinueButton2.Size = new System.Drawing.Size(75, 23);
-            this.ContinueButton2.TabIndex = 0;
-            this.ContinueButton2.Text = "Zatwierdź";
-            this.ContinueButton2.UseVisualStyleBackColor = true;
-            this.ContinueButton2.Click += new System.EventHandler(this.ContinueButton2_Click);
+            this.MutProbNumeric.Location = new System.Drawing.Point(8, 299);
+            this.MutProbNumeric.Name = "MutProbNumeric";
+            this.MutProbNumeric.Size = new System.Drawing.Size(120, 20);
+            this.MutProbNumeric.TabIndex = 10;
             // 
-            // ImprovementBox
+            // PopSizeLabel
             // 
-            this.ImprovementBox.Location = new System.Drawing.Point(145, 142);
-            this.ImprovementBox.Name = "ImprovementBox";
-            this.ImprovementBox.Size = new System.Drawing.Size(100, 20);
-            this.ImprovementBox.TabIndex = 8;
-            this.ImprovementBox.Text = "0";
+            this.PopSizeLabel.AutoSize = true;
+            this.PopSizeLabel.Location = new System.Drawing.Point(4, 14);
+            this.PopSizeLabel.Name = "PopSizeLabel";
+            this.PopSizeLabel.Size = new System.Drawing.Size(90, 13);
+            this.PopSizeLabel.TabIndex = 0;
+            this.PopSizeLabel.Text = "Rozmiar populacji";
             // 
-            // ImprovementLabel
+            // MutProbLabel
             // 
-            this.ImprovementLabel.AutoSize = true;
-            this.ImprovementLabel.Location = new System.Drawing.Point(5, 145);
-            this.ImprovementLabel.Name = "ImprovementLabel";
-            this.ImprovementLabel.Size = new System.Drawing.Size(134, 13);
-            this.ImprovementLabel.TabIndex = 7;
-            this.ImprovementLabel.Text = "Liczba iteracji bez poprawy";
-            // 
-            // TournamentLabel
-            // 
-            this.TournamentLabel.AutoSize = true;
-            this.TournamentLabel.Location = new System.Drawing.Point(4, 190);
-            this.TournamentLabel.Name = "TournamentLabel";
-            this.TournamentLabel.Size = new System.Drawing.Size(82, 13);
-            this.TournamentLabel.TabIndex = 11;
-            this.TournamentLabel.Text = "Rozmiar turnieju";
-            // 
-            // TimeBox
-            // 
-            this.TimeBox.Location = new System.Drawing.Point(145, 108);
-            this.TimeBox.Name = "TimeBox";
-            this.TimeBox.Size = new System.Drawing.Size(100, 20);
-            this.TimeBox.TabIndex = 6;
-            this.TimeBox.Text = "0";
-            // 
-            // TournamentBox
-            // 
-            this.TournamentBox.Location = new System.Drawing.Point(100, 187);
-            this.TournamentBox.Name = "TournamentBox";
-            this.TournamentBox.Size = new System.Drawing.Size(100, 20);
-            this.TournamentBox.TabIndex = 12;
-            // 
-            // TimeLabel
-            // 
-            this.TimeLabel.AutoSize = true;
-            this.TimeLabel.Location = new System.Drawing.Point(4, 111);
-            this.TimeLabel.Name = "TimeLabel";
-            this.TimeLabel.Size = new System.Drawing.Size(135, 13);
-            this.TimeLabel.TabIndex = 5;
-            this.TimeLabel.Text = "Czas obliczeń (w minutach)";
-            // 
-            // CrossingLabel
-            // 
-            this.CrossingLabel.AutoSize = true;
-            this.CrossingLabel.Location = new System.Drawing.Point(4, 227);
-            this.CrossingLabel.Name = "CrossingLabel";
-            this.CrossingLabel.Size = new System.Drawing.Size(198, 13);
-            this.CrossingLabel.TabIndex = 13;
-            this.CrossingLabel.Text = "Prawdopodobieństwo krzyżowania (w %)";
-            // 
-            // GenNumberBox
-            // 
-            this.GenNumberBox.Location = new System.Drawing.Point(100, 41);
-            this.GenNumberBox.Name = "GenNumberBox";
-            this.GenNumberBox.Size = new System.Drawing.Size(100, 20);
-            this.GenNumberBox.TabIndex = 3;
+            this.MutProbLabel.AutoSize = true;
+            this.MutProbLabel.Location = new System.Drawing.Point(4, 283);
+            this.MutProbLabel.Name = "MutProbLabel";
+            this.MutProbLabel.Size = new System.Drawing.Size(173, 13);
+            this.MutProbLabel.TabIndex = 9;
+            this.MutProbLabel.Text = "Prawdopodobieństwo mutacji (w %)";
             // 
             // CrossingNumeric
             // 
@@ -429,37 +380,56 @@
             this.GenNumberLabel.TabIndex = 2;
             this.GenNumberLabel.Text = "Liczba generacji";
             // 
-            // PopSizeBox
+            // CrossingLabel
             // 
-            this.PopSizeBox.Location = new System.Drawing.Point(100, 11);
-            this.PopSizeBox.Name = "PopSizeBox";
-            this.PopSizeBox.Size = new System.Drawing.Size(100, 20);
-            this.PopSizeBox.TabIndex = 1;
+            this.CrossingLabel.AutoSize = true;
+            this.CrossingLabel.Location = new System.Drawing.Point(4, 227);
+            this.CrossingLabel.Name = "CrossingLabel";
+            this.CrossingLabel.Size = new System.Drawing.Size(198, 13);
+            this.CrossingLabel.TabIndex = 13;
+            this.CrossingLabel.Text = "Prawdopodobieństwo krzyżowania (w %)";
             // 
-            // MutProbLabel
+            // ContinueButton2
             // 
-            this.MutProbLabel.AutoSize = true;
-            this.MutProbLabel.Location = new System.Drawing.Point(4, 283);
-            this.MutProbLabel.Name = "MutProbLabel";
-            this.MutProbLabel.Size = new System.Drawing.Size(173, 13);
-            this.MutProbLabel.TabIndex = 9;
-            this.MutProbLabel.Text = "Prawdopodobieństwo mutacji (w %)";
+            this.ContinueButton2.Location = new System.Drawing.Point(145, 360);
+            this.ContinueButton2.Name = "ContinueButton2";
+            this.ContinueButton2.Size = new System.Drawing.Size(75, 23);
+            this.ContinueButton2.TabIndex = 0;
+            this.ContinueButton2.Text = "Zatwierdź";
+            this.ContinueButton2.UseVisualStyleBackColor = true;
+            this.ContinueButton2.Click += new System.EventHandler(this.ContinueButton2_Click);
             // 
-            // MutProbNumeric
+            // TimeBox
             // 
-            this.MutProbNumeric.Location = new System.Drawing.Point(8, 299);
-            this.MutProbNumeric.Name = "MutProbNumeric";
-            this.MutProbNumeric.Size = new System.Drawing.Size(120, 20);
-            this.MutProbNumeric.TabIndex = 10;
+            this.TimeBox.Location = new System.Drawing.Point(145, 108);
+            this.TimeBox.Name = "TimeBox";
+            this.TimeBox.Size = new System.Drawing.Size(100, 20);
+            this.TimeBox.TabIndex = 6;
+            this.TimeBox.Text = "0";
             // 
-            // PopSizeLabel
+            // TournamentBox
             // 
-            this.PopSizeLabel.AutoSize = true;
-            this.PopSizeLabel.Location = new System.Drawing.Point(4, 14);
-            this.PopSizeLabel.Name = "PopSizeLabel";
-            this.PopSizeLabel.Size = new System.Drawing.Size(90, 13);
-            this.PopSizeLabel.TabIndex = 0;
-            this.PopSizeLabel.Text = "Rozmiar populacji";
+            this.TournamentBox.Location = new System.Drawing.Point(100, 187);
+            this.TournamentBox.Name = "TournamentBox";
+            this.TournamentBox.Size = new System.Drawing.Size(100, 20);
+            this.TournamentBox.TabIndex = 12;
+            // 
+            // ImprovementBox
+            // 
+            this.ImprovementBox.Location = new System.Drawing.Point(145, 142);
+            this.ImprovementBox.Name = "ImprovementBox";
+            this.ImprovementBox.Size = new System.Drawing.Size(100, 20);
+            this.ImprovementBox.TabIndex = 8;
+            this.ImprovementBox.Text = "0";
+            // 
+            // TimeLabel
+            // 
+            this.TimeLabel.AutoSize = true;
+            this.TimeLabel.Location = new System.Drawing.Point(4, 111);
+            this.TimeLabel.Name = "TimeLabel";
+            this.TimeLabel.Size = new System.Drawing.Size(135, 13);
+            this.TimeLabel.TabIndex = 5;
+            this.TimeLabel.Text = "Czas obliczeń (w minutach)";
             // 
             // radioButton1
             // 
@@ -472,6 +442,45 @@
             this.radioButton1.Text = "Dodatkowe kryterium stopu?";
             this.radioButton1.UseVisualStyleBackColor = true;
             this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            // 
+            // TournamentLabel
+            // 
+            this.TournamentLabel.AutoSize = true;
+            this.TournamentLabel.Location = new System.Drawing.Point(4, 190);
+            this.TournamentLabel.Name = "TournamentLabel";
+            this.TournamentLabel.Size = new System.Drawing.Size(82, 13);
+            this.TournamentLabel.TabIndex = 11;
+            this.TournamentLabel.Text = "Rozmiar turnieju";
+            // 
+            // PopSizeBox
+            // 
+            this.PopSizeBox.Location = new System.Drawing.Point(100, 11);
+            this.PopSizeBox.Name = "PopSizeBox";
+            this.PopSizeBox.Size = new System.Drawing.Size(100, 20);
+            this.PopSizeBox.TabIndex = 1;
+            // 
+            // ImprovementLabel
+            // 
+            this.ImprovementLabel.AutoSize = true;
+            this.ImprovementLabel.Location = new System.Drawing.Point(5, 145);
+            this.ImprovementLabel.Name = "ImprovementLabel";
+            this.ImprovementLabel.Size = new System.Drawing.Size(134, 13);
+            this.ImprovementLabel.TabIndex = 7;
+            this.ImprovementLabel.Text = "Liczba iteracji bez poprawy";
+            // 
+            // GenNumberBox
+            // 
+            this.GenNumberBox.Location = new System.Drawing.Point(100, 41);
+            this.GenNumberBox.Name = "GenNumberBox";
+            this.GenNumberBox.Size = new System.Drawing.Size(100, 20);
+            this.GenNumberBox.TabIndex = 3;
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(259, 359);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(521, 23);
+            this.progressBar1.TabIndex = 15;
             // 
             // Form1
             // 
@@ -491,8 +500,8 @@
             this.tabPage2.ResumeLayout(false);
             this.HeurParameters.ResumeLayout(false);
             this.HeurParameters.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CrossingNumeric)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MutProbNumeric)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CrossingNumeric)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -537,6 +546,7 @@
         private System.Windows.Forms.TextBox PopSizeBox;
         private System.Windows.Forms.TextBox GenNumberBox;
         private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
 
