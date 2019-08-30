@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea16 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend16 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series16 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.TabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.InstanceView = new System.Windows.Forms.Panel();
@@ -53,6 +53,8 @@
             this.FragmentBox = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.HeurParameters = new System.Windows.Forms.Panel();
+            this.PauseButton = new System.Windows.Forms.Button();
+            this.ReturnButton1 = new System.Windows.Forms.Button();
             this.ContinueButton3 = new System.Windows.Forms.Button();
             this.ProgressChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
@@ -67,19 +69,19 @@
             this.TournamentBox = new System.Windows.Forms.TextBox();
             this.ImprovementBox = new System.Windows.Forms.TextBox();
             this.TimeLabel = new System.Windows.Forms.Label();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.AdditionalRadioButton = new System.Windows.Forms.RadioButton();
             this.TournamentLabel = new System.Windows.Forms.Label();
             this.PopSizeBox = new System.Windows.Forms.TextBox();
             this.ImprovementLabel = new System.Windows.Forms.Label();
             this.GenNumberBox = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.ResultsPanel = new System.Windows.Forms.Panel();
+            this.SaveSolutionButton = new System.Windows.Forms.Button();
             this.SolutionGridView = new System.Windows.Forms.DataGridView();
             this.ReturnButton2 = new System.Windows.Forms.Button();
             this.SolutionValueLabel = new System.Windows.Forms.Label();
             this.ContinueButton4 = new System.Windows.Forms.Button();
             this.SolutionValueBox = new System.Windows.Forms.TextBox();
-            this.SaveSolutionButton = new System.Windows.Forms.Button();
             this.TabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.InstanceView.SuspendLayout();
@@ -334,6 +336,8 @@
             // HeurParameters
             // 
             this.HeurParameters.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.HeurParameters.Controls.Add(this.PauseButton);
+            this.HeurParameters.Controls.Add(this.ReturnButton1);
             this.HeurParameters.Controls.Add(this.ContinueButton3);
             this.HeurParameters.Controls.Add(this.ProgressChart);
             this.HeurParameters.Controls.Add(this.progressBar1);
@@ -348,16 +352,35 @@
             this.HeurParameters.Controls.Add(this.TournamentBox);
             this.HeurParameters.Controls.Add(this.ImprovementBox);
             this.HeurParameters.Controls.Add(this.TimeLabel);
-            this.HeurParameters.Controls.Add(this.radioButton1);
+            this.HeurParameters.Controls.Add(this.AdditionalRadioButton);
             this.HeurParameters.Controls.Add(this.TournamentLabel);
             this.HeurParameters.Controls.Add(this.PopSizeBox);
             this.HeurParameters.Controls.Add(this.ImprovementLabel);
             this.HeurParameters.Controls.Add(this.GenNumberBox);
-            this.HeurParameters.Dock = System.Windows.Forms.DockStyle.Top;
+            this.HeurParameters.Dock = System.Windows.Forms.DockStyle.Fill;
             this.HeurParameters.Location = new System.Drawing.Point(3, 3);
             this.HeurParameters.Name = "HeurParameters";
             this.HeurParameters.Size = new System.Drawing.Size(786, 418);
             this.HeurParameters.TabIndex = 0;
+            // 
+            // PauseButton
+            // 
+            this.PauseButton.Location = new System.Drawing.Point(259, 390);
+            this.PauseButton.Name = "PauseButton";
+            this.PauseButton.Size = new System.Drawing.Size(75, 23);
+            this.PauseButton.TabIndex = 19;
+            this.PauseButton.Text = "Pauza";
+            this.PauseButton.UseVisualStyleBackColor = true;
+            // 
+            // ReturnButton1
+            // 
+            this.ReturnButton1.Location = new System.Drawing.Point(64, 359);
+            this.ReturnButton1.Name = "ReturnButton1";
+            this.ReturnButton1.Size = new System.Drawing.Size(75, 23);
+            this.ReturnButton1.TabIndex = 18;
+            this.ReturnButton1.Text = "Cofnij";
+            this.ReturnButton1.UseVisualStyleBackColor = true;
+            this.ReturnButton1.Click += new System.EventHandler(this.ReturnButton1_Click);
             // 
             // ContinueButton3
             // 
@@ -371,17 +394,17 @@
             // 
             // ProgressChart
             // 
-            chartArea2.Name = "ChartArea1";
-            this.ProgressChart.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.ProgressChart.Legends.Add(legend2);
+            chartArea16.Name = "ChartArea1";
+            this.ProgressChart.ChartAreas.Add(chartArea16);
+            legend16.Name = "Legend1";
+            this.ProgressChart.Legends.Add(legend16);
             this.ProgressChart.Location = new System.Drawing.Point(259, 11);
             this.ProgressChart.Name = "ProgressChart";
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series2.Legend = "Legend1";
-            series2.Name = "Funkcja celu";
-            this.ProgressChart.Series.Add(series2);
+            series16.ChartArea = "ChartArea1";
+            series16.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series16.Legend = "Legend1";
+            series16.Name = "Funkcja celu";
+            this.ProgressChart.Series.Add(series16);
             this.ProgressChart.Size = new System.Drawing.Size(521, 333);
             this.ProgressChart.TabIndex = 16;
             this.ProgressChart.Text = "Funkcja celu";
@@ -460,6 +483,7 @@
             this.TimeBox.Size = new System.Drawing.Size(100, 20);
             this.TimeBox.TabIndex = 6;
             this.TimeBox.Text = "0";
+            this.TimeBox.Leave += new System.EventHandler(this.TimeBox_Leave);
             // 
             // TournamentBox
             // 
@@ -467,6 +491,7 @@
             this.TournamentBox.Name = "TournamentBox";
             this.TournamentBox.Size = new System.Drawing.Size(100, 20);
             this.TournamentBox.TabIndex = 12;
+            this.TournamentBox.Leave += new System.EventHandler(this.TournamentBox_Leave);
             // 
             // ImprovementBox
             // 
@@ -475,6 +500,7 @@
             this.ImprovementBox.Size = new System.Drawing.Size(100, 20);
             this.ImprovementBox.TabIndex = 8;
             this.ImprovementBox.Text = "0";
+            this.ImprovementBox.Leave += new System.EventHandler(this.ImprovementBox_Leave);
             // 
             // TimeLabel
             // 
@@ -485,17 +511,17 @@
             this.TimeLabel.TabIndex = 5;
             this.TimeLabel.Text = "Czas obliczeń (w minutach)";
             // 
-            // radioButton1
+            // AdditionalRadioButton
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(7, 79);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(160, 17);
-            this.radioButton1.TabIndex = 4;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Dodatkowe kryterium stopu?";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            this.AdditionalRadioButton.AutoSize = true;
+            this.AdditionalRadioButton.Location = new System.Drawing.Point(7, 79);
+            this.AdditionalRadioButton.Name = "AdditionalRadioButton";
+            this.AdditionalRadioButton.Size = new System.Drawing.Size(160, 17);
+            this.AdditionalRadioButton.TabIndex = 4;
+            this.AdditionalRadioButton.TabStop = true;
+            this.AdditionalRadioButton.Text = "Dodatkowe kryterium stopu?";
+            this.AdditionalRadioButton.UseVisualStyleBackColor = true;
+            this.AdditionalRadioButton.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
             // TournamentLabel
             // 
@@ -512,6 +538,8 @@
             this.PopSizeBox.Name = "PopSizeBox";
             this.PopSizeBox.Size = new System.Drawing.Size(100, 20);
             this.PopSizeBox.TabIndex = 1;
+            this.PopSizeBox.Enter += new System.EventHandler(this.PopSizeBox_Enter);
+            this.PopSizeBox.Leave += new System.EventHandler(this.PopSizeBox_Leave);
             // 
             // ImprovementLabel
             // 
@@ -528,6 +556,7 @@
             this.GenNumberBox.Name = "GenNumberBox";
             this.GenNumberBox.Size = new System.Drawing.Size(100, 20);
             this.GenNumberBox.TabIndex = 3;
+            this.GenNumberBox.Leave += new System.EventHandler(this.GenNumberBox_Leave);
             // 
             // tabPage3
             // 
@@ -553,6 +582,16 @@
             this.ResultsPanel.Size = new System.Drawing.Size(792, 424);
             this.ResultsPanel.TabIndex = 8;
             // 
+            // SaveSolutionButton
+            // 
+            this.SaveSolutionButton.Location = new System.Drawing.Point(229, 37);
+            this.SaveSolutionButton.Name = "SaveSolutionButton";
+            this.SaveSolutionButton.Size = new System.Drawing.Size(75, 23);
+            this.SaveSolutionButton.TabIndex = 10;
+            this.SaveSolutionButton.Text = "Zapisz";
+            this.SaveSolutionButton.UseVisualStyleBackColor = true;
+            this.SaveSolutionButton.Click += new System.EventHandler(this.SaveSolutionButton_Click);
+            // 
             // SolutionGridView
             // 
             this.SolutionGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -570,6 +609,7 @@
             this.ReturnButton2.TabIndex = 5;
             this.ReturnButton2.Text = "Cofnij";
             this.ReturnButton2.UseVisualStyleBackColor = true;
+            this.ReturnButton2.Click += new System.EventHandler(this.ReturnButton2_Click);
             // 
             // SolutionValueLabel
             // 
@@ -588,6 +628,7 @@
             this.ContinueButton4.TabIndex = 4;
             this.ContinueButton4.Text = "Zatwierdź";
             this.ContinueButton4.UseVisualStyleBackColor = true;
+            this.ContinueButton4.Click += new System.EventHandler(this.ContinueButton4_Click);
             // 
             // SolutionValueBox
             // 
@@ -595,15 +636,6 @@
             this.SolutionValueBox.Name = "SolutionValueBox";
             this.SolutionValueBox.Size = new System.Drawing.Size(86, 20);
             this.SolutionValueBox.TabIndex = 7;
-            // 
-            // SaveSolutionButton
-            // 
-            this.SaveSolutionButton.Location = new System.Drawing.Point(229, 37);
-            this.SaveSolutionButton.Name = "SaveSolutionButton";
-            this.SaveSolutionButton.Size = new System.Drawing.Size(75, 23);
-            this.SaveSolutionButton.TabIndex = 10;
-            this.SaveSolutionButton.Text = "Zapisz";
-            this.SaveSolutionButton.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -672,7 +704,7 @@
         private System.Windows.Forms.Label GenNumberLabel;
         private System.Windows.Forms.TextBox PopSizeBox;
         private System.Windows.Forms.TextBox GenNumberBox;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton AdditionalRadioButton;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.DataVisualization.Charting.Chart ProgressChart;
         private System.Windows.Forms.Button ContinueButton3;
@@ -685,6 +717,8 @@
         private System.Windows.Forms.Panel ImagePanel;
         private System.Windows.Forms.DataGridView SolutionGridView;
         private System.Windows.Forms.Button SaveSolutionButton;
+        private System.Windows.Forms.Button PauseButton;
+        private System.Windows.Forms.Button ReturnButton1;
     }
 }
 

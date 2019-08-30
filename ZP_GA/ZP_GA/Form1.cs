@@ -15,6 +15,7 @@ namespace ZP_GA
     {
 
         DataTable Instance;
+        DataTable Solution;
         BindingSource SBind;
         BindingSource SolutionBind;
         List<Tuple<int, int>> Errors;
@@ -42,6 +43,13 @@ namespace ZP_GA
             ModifyButton.Enabled = false;
             SaveButton.Enabled = false;
             InstanceGridView.Enabled = false; // zabezpieczenie przed grzebaniem w instancji
+            ((Control)tabPage3).Enabled = false;
+            ContinueButton2.Enabled = false;
+            ContinueButton3.Enabled = false;
+            PauseButton.Enabled = false;
+            TournamentBox.Enabled = false;
+            TimeBox.Enabled = false;
+            ImprovementBox.Enabled = false;
         }
 
         private void ContinueButton1_Click(object sender, EventArgs e)
@@ -63,13 +71,12 @@ namespace ZP_GA
             GenParameters.Enabled = false; // wylaczenie poprzedniej
             InstanceGridView.Enabled = false; // wylaczenie DataGridView
             ((Control)tabPage2).Enabled = true; // wlaczenie aktualnej
-            TimeBox.Enabled = false;
-            ImprovementBox.Enabled = false;
-            // ContinueButton2.Enabled = false;
         }
 
         private void ContinueButton2_Click(object sender, EventArgs e)
         {
+
+            ReturnButton1.Enabled = false;
 
             int pop_size = Int32.Parse(PopSizeBox.Text);
             int gens = Int32.Parse(GenNumberBox.Text);
@@ -113,56 +120,23 @@ namespace ZP_GA
             bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(
             delegate (object o, RunWorkerCompletedEventArgs args)
             {
-                MessageBox.Show("FINISHED!!! NAJLEPSZE ROZWIĄZANIE: " + genetic_algorithm.Best.Fitness);
+                MessageBox.Show("Skończone!!! NAJLEPSZE ROZWIĄZANIE: " + genetic_algorithm.Best.Fitness);
+                ContinueButton3.Enabled = true;
+                ReturnButton1.Enabled = true;
             });
 
             bw.RunWorkerAsync(genetic_algorithm);
 
-            // KOD CZYSZCZĄCY!!! TRZA PRZENIEŚĆ DO TRZECIEJ ZAKŁADKI
-
-            /* TabControl1.SelectedTab = tabPage1; // powrot do pierwszej zakladki
-            GenParameters.Enabled = true; // wlaczenie jej
-            ((Control)tabPage2).Enabled = false; // wylaczenie nastepnej
-            ContinueButton1.Enabled = false; // zabezpieczenie przed brakiem instancji
-
-            foreach (TabPage tp in TabControl1.TabPages) // czyszczenie wartosci
-            {
-                foreach (Panel p in tp.Controls)
-                {
-                    foreach (Control c in p.Controls)
-                    {
-                        TextBox t = (c as TextBox);
-                        NumericUpDown n = (c as NumericUpDown);
-                        RadioButton r = (c as RadioButton);
-
-                        if (t != null)
-                            t.Text = "";
-
-                        if (n != null)
-                            n.Value = n.Minimum;
-
-                        if (r != null)
-                            r.Checked = false;
-                    }
-                }
-            }
-
-            Instance.Reset(); // czyszczenie DataTable z instancja
-            ModifyButton.Enabled = false;
-            GenAndSaveButton.Enabled = false;
-            SaveButton.Enabled = false;
-            InstanceGridView.Enabled = false;
-            GeneratorButton.Enabled = false;
-            ErrorBox.Text = "0"; */
-
+            PauseButton.Enabled = true;
         }
 
         private void FragmentBox_Leave(object sender, EventArgs e)
         {
             int value = 0;
-            if (!int.TryParse(FragmentBox.Text, out value) || FragmentBox.Text == "")
+            bool parsed = int.TryParse(FragmentBox.Text, out value);
+            if (!parsed || FragmentBox.Text == "" || value <= 0)
             {
-                MessageBox.Show("Wpisana wartość nie jest liczbą całkowitą lub zostawiłeś puste pole!!!");
+                MessageBox.Show("Wpisana wartość nie jest liczbą całkowitą, jest mniejsza lub równa zero albo zostawiłeś puste pole!!!");
                 FragmentBox.Focus();
             }
         }
@@ -170,9 +144,10 @@ namespace ZP_GA
         private void SampleBox_Leave(object sender, EventArgs e)
         {
             int value = 0;
-            if (!int.TryParse(SampleBox.Text, out value) || SampleBox.Text == "")
+            bool parsed = int.TryParse(SampleBox.Text, out value);
+            if (!parsed || SampleBox.Text == "" || value <= 0)
             {
-                MessageBox.Show("Wpisana wartość nie jest liczbą całkowitą lub zostawiłeś puste pole!!!");
+                MessageBox.Show("Wpisana wartość nie jest liczbą całkowitą, jest mniejsza lub równa zero albo zostawiłeś puste pole!!!");
                 SampleBox.Focus();
             }
         }
@@ -180,9 +155,10 @@ namespace ZP_GA
         private void ErrorBox_Leave(object sender, EventArgs e)
         {
             int value = 0;
-            if (!int.TryParse(ErrorBox.Text, out value) || ErrorBox.Text == "")
+            bool parsed = int.TryParse(ErrorBox.Text, out value);
+            if (!parsed || ErrorBox.Text == "" || value < 0)
             {
-                MessageBox.Show("Wpisana wartość nie jest liczbą całkowitą lub zostawiłeś puste pole!!!");
+                MessageBox.Show("Wpisana wartość nie jest liczbą całkowitą, jest mniejsza od zera albo zostawiłeś puste pole!!!");
                 ErrorBox.Focus();
             }
         }
@@ -235,7 +211,7 @@ namespace ZP_GA
 
         private void InstanceGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
-            MessageBox.Show("Wprowadziłeś złą wartość!!!");
+            MessageBox.Show("Wprowadziłeś zły typ wartości do macierzy!!!");
         }
 
         private void ModifyButton_Click(object sender, EventArgs e)
@@ -247,7 +223,7 @@ namespace ZP_GA
         {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             saveFileDialog1.Filter = "XML DataTable|*.xml";
-            saveFileDialog1.Title = "Zapisz instancję";
+            saveFileDialog1.Title = "Zapisz macierz";
             saveFileDialog1.ShowDialog();
 
             if (saveFileDialog1.FileName != "")
@@ -260,7 +236,7 @@ namespace ZP_GA
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             openFileDialog1.Filter = "XML DataTable|*.xml";
-            openFileDialog1.Title = "Wczytaj instancję";
+            openFileDialog1.Title = "Wczytaj macierz";
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -293,13 +269,154 @@ namespace ZP_GA
         {
             SolutionGridView.DataSource = null;
             SolutionBind = new BindingSource();
-            DataTable solution = genetic_algorithm.Best.Solution.Copy();
-            SolutionBind.DataSource = solution;
+            Solution = genetic_algorithm.Best.Solution.Copy();
+            SolutionBind.DataSource = Solution;
             SolutionGridView.DataSource = SolutionBind;
 
             SolutionValueBox.Text = genetic_algorithm.Best.Fitness.ToString();
 
+            ((Control)tabPage2).Enabled = false;
+
+            ((Control)tabPage3).Enabled = true;
             TabControl1.SelectedTab = tabPage3;
+        }
+
+        private void ReturnButton1_Click(object sender, EventArgs e)
+        {
+            TabControl1.SelectedTab = tabPage1;
+            GenParameters.Enabled = true;
+            InstanceGridView.Enabled = true;
+            AdditionalRadioButton.Checked = false;
+            TimeBox.Text = "0";
+            ImprovementBox.Text = "0";
+            ((Control)tabPage1).Enabled = true;
+            ((Control)tabPage2).Enabled = false;
+        }
+
+        private void PopSizeBox_Enter(object sender, EventArgs e)
+        {
+            ContinueButton2.Enabled = true;
+            TournamentBox.Enabled = true;
+        }
+
+        private void PopSizeBox_Leave(object sender, EventArgs e)
+        {
+            int value = 0;
+            bool parsed = int.TryParse(PopSizeBox.Text, out value);
+            if (!parsed || PopSizeBox.Text == "" || value <= 0 || value % 2 != 0)
+            {
+                MessageBox.Show("Wpisana wartość nie jest liczbą całkowitą lub parzystą, jest mniejsza lub równa zero albo zostawiłeś puste pole!!!");
+                PopSizeBox.Focus();
+            }
+        }
+
+        private void GenNumberBox_Leave(object sender, EventArgs e)
+        {
+            int value = 0;
+            bool parsed = int.TryParse(GenNumberBox.Text, out value);
+            if (!parsed || GenNumberBox.Text == "" || value <= 0)
+            {
+                MessageBox.Show("Wpisana wartość nie jest liczbą całkowitą, jest mniejsza lub równa zero albo zostawiłeś puste pole!!!");
+                GenNumberBox.Focus();
+            }
+        }
+
+        private void TournamentBox_Leave(object sender, EventArgs e)
+        {
+            int value = 0;
+            bool parsed = int.TryParse(TournamentBox.Text, out value);
+            if (!parsed || TournamentBox.Text == "" || value <= 0 || value > Int32.Parse(PopSizeBox.Text))
+            {
+                MessageBox.Show("Wpisana wartość nie jest liczbą całkowitą, jest mniejsza lub równa zero, jest większa od wielkości populacji albo zostawiłeś puste pole!!!");
+                TournamentBox.Focus();
+            }
+        }
+
+        private void TimeBox_Leave(object sender, EventArgs e)
+        {
+            int value = 0;
+            bool parsed = int.TryParse(TimeBox.Text, out value);
+            if (!parsed || value < 0)
+            {
+                MessageBox.Show("Wpisana wartość nie jest liczbą całkowitą, jest mniejsza od zera lub zostawiłeś puste pole!!! POZOSTAW ZERO, ABY NIE UŻYWAĆ PARAMETRU.");
+                TimeBox.Focus();
+            }
+        }
+
+        private void ImprovementBox_Leave(object sender, EventArgs e)
+        {
+            int value = 0;
+            bool parsed = int.TryParse(ImprovementBox.Text, out value);
+            if (!parsed || value < 0)
+            {
+                MessageBox.Show("Wpisana wartość nie jest liczbą całkowitą, jest mniejsza od zera lub zostawiłeś puste pole!!! POZOSTAW ZERO, ABY NIE UŻYWAĆ PARAMETRU.");
+                ImprovementBox.Focus();
+            }
+        }
+
+        private void ReturnButton2_Click(object sender, EventArgs e)
+        {
+            ((Control)tabPage2).Enabled = true;
+            TabControl1.SelectedTab = tabPage2;
+            ((Control)tabPage3).Enabled = false;
+        }
+
+        private void SaveSolutionButton_Click(object sender, EventArgs e)
+        {
+            SaveButton_Click(sender, e);
+        }
+
+        private void ContinueButton4_Click(object sender, EventArgs e)
+        {
+
+            TabControl1.SelectedTab = tabPage1; // powrot do pierwszej zakladki
+            GenParameters.Enabled = true; // wlaczenie jej
+            ((Control)tabPage2).Enabled = false; // wylaczenie nastepnej
+            ContinueButton1.Enabled = false; // zabezpieczenie przed brakiem instancji
+
+            foreach (TabPage tp in TabControl1.TabPages) // czyszczenie wartosci
+            {
+                foreach (Panel p in tp.Controls)
+                {
+                    foreach (Control c in p.Controls)
+                    {
+                        TextBox t = (c as TextBox);
+                        NumericUpDown n = (c as NumericUpDown);
+                        RadioButton r = (c as RadioButton);
+
+                        if (t != null)
+                            t.Text = "";
+
+                        if (n != null)
+                            n.Value = n.Minimum;
+
+                        if (r != null)
+                            r.Checked = false;
+                    }
+                }
+            }
+
+            Instance.Reset(); // czyszczenie DataTable z instancja
+            ModifyButton.Enabled = false;
+            GenAndSaveButton.Enabled = false;
+            SaveButton.Enabled = false;
+            InstanceGridView.Enabled = false;
+            GeneratorButton.Enabled = false;
+            ErrorBox.Text = "0";
+
+            ContinueButton1.Enabled = false;
+            ((Control)tabPage3).Enabled = false;
+            ContinueButton2.Enabled = false;
+            ContinueButton3.Enabled = false;
+            PauseButton.Enabled = false;
+            TournamentBox.Enabled = false;
+            TimeBox.Enabled = false;
+            ImprovementBox.Enabled = false;
+            TimeBox.Text = "0";
+            ImprovementBox.Text = "0";
+            progressBar1.Value = 0;
+            ProgressChart.Series["Funkcja celu"].Points.Clear();
+            Solution.Reset();
         }
     }
 }
