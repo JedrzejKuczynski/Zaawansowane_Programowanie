@@ -111,7 +111,7 @@ namespace ZP_GA
 
                             if(last_ones < zeros_number)
                             {
-                                if(zeros_number > previous_ones)
+                                if(zeros_number >= previous_ones)
                                 {
                                     if (last_ones < previous_ones)
                                     {
