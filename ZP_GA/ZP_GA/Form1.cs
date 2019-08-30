@@ -291,8 +291,10 @@ namespace ZP_GA
 
         private void ContinueButton3_Click(object sender, EventArgs e)
         {
+            SolutionGridView.DataSource = null;
             SolutionBind = new BindingSource();
-            SolutionBind.DataSource = genetic_algorithm.Best.Solution;
+            DataTable solution = genetic_algorithm.Best.Solution.Copy();
+            SolutionBind.DataSource = solution;
             SolutionGridView.DataSource = SolutionBind;
 
             SolutionValueBox.Text = genetic_algorithm.Best.Fitness.ToString();

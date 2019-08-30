@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend7 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.TabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.InstanceView = new System.Windows.Forms.Panel();
@@ -79,6 +79,7 @@
             this.SolutionValueLabel = new System.Windows.Forms.Label();
             this.ContinueButton4 = new System.Windows.Forms.Button();
             this.SolutionValueBox = new System.Windows.Forms.TextBox();
+            this.SaveSolutionButton = new System.Windows.Forms.Button();
             this.TabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.InstanceView.SuspendLayout();
@@ -360,7 +361,7 @@
             // 
             // ContinueButton3
             // 
-            this.ContinueButton3.Location = new System.Drawing.Point(704, 389);
+            this.ContinueButton3.Location = new System.Drawing.Point(707, 390);
             this.ContinueButton3.Name = "ContinueButton3";
             this.ContinueButton3.Size = new System.Drawing.Size(75, 23);
             this.ContinueButton3.TabIndex = 17;
@@ -370,17 +371,17 @@
             // 
             // ProgressChart
             // 
-            chartArea7.Name = "ChartArea1";
-            this.ProgressChart.ChartAreas.Add(chartArea7);
-            legend7.Name = "Legend1";
-            this.ProgressChart.Legends.Add(legend7);
+            chartArea2.Name = "ChartArea1";
+            this.ProgressChart.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.ProgressChart.Legends.Add(legend2);
             this.ProgressChart.Location = new System.Drawing.Point(259, 11);
             this.ProgressChart.Name = "ProgressChart";
-            series7.ChartArea = "ChartArea1";
-            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series7.Legend = "Legend1";
-            series7.Name = "Funkcja celu";
-            this.ProgressChart.Series.Add(series7);
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series2.Legend = "Legend1";
+            series2.Name = "Funkcja celu";
+            this.ProgressChart.Series.Add(series2);
             this.ProgressChart.Size = new System.Drawing.Size(521, 333);
             this.ProgressChart.TabIndex = 16;
             this.ProgressChart.Text = "Funkcja celu";
@@ -444,7 +445,7 @@
             // 
             // ContinueButton2
             // 
-            this.ContinueButton2.Location = new System.Drawing.Point(145, 360);
+            this.ContinueButton2.Location = new System.Drawing.Point(145, 359);
             this.ContinueButton2.Name = "ContinueButton2";
             this.ContinueButton2.Size = new System.Drawing.Size(75, 23);
             this.ContinueButton2.TabIndex = 0;
@@ -540,6 +541,7 @@
             // 
             // ResultsPanel
             // 
+            this.ResultsPanel.Controls.Add(this.SaveSolutionButton);
             this.ResultsPanel.Controls.Add(this.SolutionGridView);
             this.ResultsPanel.Controls.Add(this.ReturnButton2);
             this.ResultsPanel.Controls.Add(this.SolutionValueLabel);
@@ -580,7 +582,7 @@
             // 
             // ContinueButton4
             // 
-            this.ContinueButton4.Location = new System.Drawing.Point(229, 37);
+            this.ContinueButton4.Location = new System.Drawing.Point(310, 37);
             this.ContinueButton4.Name = "ContinueButton4";
             this.ContinueButton4.Size = new System.Drawing.Size(75, 23);
             this.ContinueButton4.TabIndex = 4;
@@ -593,6 +595,15 @@
             this.SolutionValueBox.Name = "SolutionValueBox";
             this.SolutionValueBox.Size = new System.Drawing.Size(86, 20);
             this.SolutionValueBox.TabIndex = 7;
+            // 
+            // SaveSolutionButton
+            // 
+            this.SaveSolutionButton.Location = new System.Drawing.Point(229, 37);
+            this.SaveSolutionButton.Name = "SaveSolutionButton";
+            this.SaveSolutionButton.Size = new System.Drawing.Size(75, 23);
+            this.SaveSolutionButton.TabIndex = 10;
+            this.SaveSolutionButton.Text = "Zapisz";
+            this.SaveSolutionButton.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -673,6 +684,7 @@
         private System.Windows.Forms.Panel ResultsPanel;
         private System.Windows.Forms.Panel ImagePanel;
         private System.Windows.Forms.DataGridView SolutionGridView;
+        private System.Windows.Forms.Button SaveSolutionButton;
     }
 }
 
