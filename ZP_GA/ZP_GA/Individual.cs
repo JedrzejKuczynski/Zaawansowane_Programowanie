@@ -50,6 +50,7 @@ namespace ZP_GA
 
         public void calculate_fitness()
         {
+            int calculated_fitness = 0;
 
             foreach(DataRow row in solution.Rows)
             {
@@ -72,6 +73,9 @@ namespace ZP_GA
                             sequence.Add(zeros_counter);
                             zeros_counter = 0;
                         }
+
+                        if(i == binary_string.Length - 1)
+                            sequence.Add(ones_counter);
                     }
                     else
                     {
@@ -95,13 +99,38 @@ namespace ZP_GA
                             int zeros_number = sequence[i + 1];
 
                             if (ones_number <= zeros_number)
-                                fitness += ones_number;
+                                calculated_fitness += ones_number;
                             else
-                                fitness += zeros_number;
+                                calculated_fitness += zeros_number;
+                        }
+                        else
+                        {
+                            int last_ones = sequence[i];
+                            int zeros_number = sequence[i - 1];
+                            int previous_ones = sequence[i - 2];
+
+                            if(last_ones < zeros_number)
+                            {
+                                if(zeros_number > previous_ones)
+                                {
+                                    if (last_ones < previous_ones)
+                                    {
+                                        calculated_fitness -= previous_ones;
+                                        calculated_fitness += last_ones;
+                                    }
+                                }
+                                else
+                                {
+                                    int difference = zeros_number - last_ones;
+                                    calculated_fitness -= difference;
+                                }
+                            }
                         }
                     }
                 }
             }
+
+            fitness = calculated_fitness;
         }
 
         public Individual(DataTable matrix, List<string> order)

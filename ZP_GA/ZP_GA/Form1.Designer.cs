@@ -28,6 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend7 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.TabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.InstanceView = new System.Windows.Forms.Panel();
@@ -50,6 +53,9 @@
             this.FragmentBox = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.HeurParameters = new System.Windows.Forms.Panel();
+            this.ContinueButton3 = new System.Windows.Forms.Button();
+            this.ProgressChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.MutProbNumeric = new System.Windows.Forms.NumericUpDown();
             this.PopSizeLabel = new System.Windows.Forms.Label();
             this.MutProbLabel = new System.Windows.Forms.Label();
@@ -66,7 +72,13 @@
             this.PopSizeBox = new System.Windows.Forms.TextBox();
             this.ImprovementLabel = new System.Windows.Forms.Label();
             this.GenNumberBox = new System.Windows.Forms.TextBox();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.ResultsPanel = new System.Windows.Forms.Panel();
+            this.SolutionGridView = new System.Windows.Forms.DataGridView();
+            this.ReturnButton2 = new System.Windows.Forms.Button();
+            this.SolutionValueLabel = new System.Windows.Forms.Label();
+            this.ContinueButton4 = new System.Windows.Forms.Button();
+            this.SolutionValueBox = new System.Windows.Forms.TextBox();
             this.TabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.InstanceView.SuspendLayout();
@@ -75,14 +87,19 @@
             ((System.ComponentModel.ISupportInitialize)(this.FillNumeric)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.HeurParameters.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ProgressChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MutProbNumeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CrossingNumeric)).BeginInit();
+            this.tabPage3.SuspendLayout();
+            this.ResultsPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SolutionGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // TabControl1
             // 
             this.TabControl1.Controls.Add(this.tabPage1);
             this.TabControl1.Controls.Add(this.tabPage2);
+            this.TabControl1.Controls.Add(this.tabPage3);
             this.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TabControl1.Location = new System.Drawing.Point(0, 0);
             this.TabControl1.Name = "TabControl1";
@@ -316,6 +333,8 @@
             // HeurParameters
             // 
             this.HeurParameters.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.HeurParameters.Controls.Add(this.ContinueButton3);
+            this.HeurParameters.Controls.Add(this.ProgressChart);
             this.HeurParameters.Controls.Add(this.progressBar1);
             this.HeurParameters.Controls.Add(this.MutProbNumeric);
             this.HeurParameters.Controls.Add(this.PopSizeLabel);
@@ -338,6 +357,40 @@
             this.HeurParameters.Name = "HeurParameters";
             this.HeurParameters.Size = new System.Drawing.Size(786, 418);
             this.HeurParameters.TabIndex = 0;
+            // 
+            // ContinueButton3
+            // 
+            this.ContinueButton3.Location = new System.Drawing.Point(704, 389);
+            this.ContinueButton3.Name = "ContinueButton3";
+            this.ContinueButton3.Size = new System.Drawing.Size(75, 23);
+            this.ContinueButton3.TabIndex = 17;
+            this.ContinueButton3.Text = "Wyniki";
+            this.ContinueButton3.UseVisualStyleBackColor = true;
+            this.ContinueButton3.Click += new System.EventHandler(this.ContinueButton3_Click);
+            // 
+            // ProgressChart
+            // 
+            chartArea7.Name = "ChartArea1";
+            this.ProgressChart.ChartAreas.Add(chartArea7);
+            legend7.Name = "Legend1";
+            this.ProgressChart.Legends.Add(legend7);
+            this.ProgressChart.Location = new System.Drawing.Point(259, 11);
+            this.ProgressChart.Name = "ProgressChart";
+            series7.ChartArea = "ChartArea1";
+            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series7.Legend = "Legend1";
+            series7.Name = "Funkcja celu";
+            this.ProgressChart.Series.Add(series7);
+            this.ProgressChart.Size = new System.Drawing.Size(521, 333);
+            this.ProgressChart.TabIndex = 16;
+            this.ProgressChart.Text = "Funkcja celu";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(259, 359);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(521, 23);
+            this.progressBar1.TabIndex = 15;
             // 
             // MutProbNumeric
             // 
@@ -475,12 +528,71 @@
             this.GenNumberBox.Size = new System.Drawing.Size(100, 20);
             this.GenNumberBox.TabIndex = 3;
             // 
-            // progressBar1
+            // tabPage3
             // 
-            this.progressBar1.Location = new System.Drawing.Point(259, 359);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(521, 23);
-            this.progressBar1.TabIndex = 15;
+            this.tabPage3.Controls.Add(this.ResultsPanel);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(792, 424);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Wyniki";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // ResultsPanel
+            // 
+            this.ResultsPanel.Controls.Add(this.SolutionGridView);
+            this.ResultsPanel.Controls.Add(this.ReturnButton2);
+            this.ResultsPanel.Controls.Add(this.SolutionValueLabel);
+            this.ResultsPanel.Controls.Add(this.ContinueButton4);
+            this.ResultsPanel.Controls.Add(this.SolutionValueBox);
+            this.ResultsPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ResultsPanel.Location = new System.Drawing.Point(0, 0);
+            this.ResultsPanel.Name = "ResultsPanel";
+            this.ResultsPanel.Size = new System.Drawing.Size(792, 424);
+            this.ResultsPanel.TabIndex = 8;
+            // 
+            // SolutionGridView
+            // 
+            this.SolutionGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.SolutionGridView.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.SolutionGridView.Location = new System.Drawing.Point(0, 66);
+            this.SolutionGridView.Name = "SolutionGridView";
+            this.SolutionGridView.Size = new System.Drawing.Size(792, 358);
+            this.SolutionGridView.TabIndex = 9;
+            // 
+            // ReturnButton2
+            // 
+            this.ReturnButton2.Location = new System.Drawing.Point(148, 37);
+            this.ReturnButton2.Name = "ReturnButton2";
+            this.ReturnButton2.Size = new System.Drawing.Size(75, 23);
+            this.ReturnButton2.TabIndex = 5;
+            this.ReturnButton2.Text = "Cofnij";
+            this.ReturnButton2.UseVisualStyleBackColor = true;
+            // 
+            // SolutionValueLabel
+            // 
+            this.SolutionValueLabel.AutoSize = true;
+            this.SolutionValueLabel.Location = new System.Drawing.Point(3, 43);
+            this.SolutionValueLabel.Name = "SolutionValueLabel";
+            this.SolutionValueLabel.Size = new System.Drawing.Size(47, 13);
+            this.SolutionValueLabel.TabIndex = 6;
+            this.SolutionValueLabel.Text = "Wartość";
+            // 
+            // ContinueButton4
+            // 
+            this.ContinueButton4.Location = new System.Drawing.Point(229, 37);
+            this.ContinueButton4.Name = "ContinueButton4";
+            this.ContinueButton4.Size = new System.Drawing.Size(75, 23);
+            this.ContinueButton4.TabIndex = 4;
+            this.ContinueButton4.Text = "Zatwierdź";
+            this.ContinueButton4.UseVisualStyleBackColor = true;
+            // 
+            // SolutionValueBox
+            // 
+            this.SolutionValueBox.Location = new System.Drawing.Point(56, 40);
+            this.SolutionValueBox.Name = "SolutionValueBox";
+            this.SolutionValueBox.Size = new System.Drawing.Size(86, 20);
+            this.SolutionValueBox.TabIndex = 7;
             // 
             // Form1
             // 
@@ -500,8 +612,13 @@
             this.tabPage2.ResumeLayout(false);
             this.HeurParameters.ResumeLayout(false);
             this.HeurParameters.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ProgressChart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MutProbNumeric)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CrossingNumeric)).EndInit();
+            this.tabPage3.ResumeLayout(false);
+            this.ResultsPanel.ResumeLayout(false);
+            this.ResultsPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SolutionGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -529,7 +646,6 @@
         private System.Windows.Forms.Button GenAndSaveButton;
         private System.Windows.Forms.Button LoadButton;
         private System.Windows.Forms.Button SaveButton;
-        private System.Windows.Forms.Panel ImagePanel;
         private System.Windows.Forms.TextBox FragmentBox;
         private System.Windows.Forms.Label PopSizeLabel;
         private System.Windows.Forms.NumericUpDown MutProbNumeric;
@@ -547,6 +663,16 @@
         private System.Windows.Forms.TextBox GenNumberBox;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart ProgressChart;
+        private System.Windows.Forms.Button ContinueButton3;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TextBox SolutionValueBox;
+        private System.Windows.Forms.Label SolutionValueLabel;
+        private System.Windows.Forms.Button ReturnButton2;
+        private System.Windows.Forms.Button ContinueButton4;
+        private System.Windows.Forms.Panel ResultsPanel;
+        private System.Windows.Forms.Panel ImagePanel;
+        private System.Windows.Forms.DataGridView SolutionGridView;
     }
 }
 

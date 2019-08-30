@@ -16,9 +16,10 @@ namespace ZP_GA
 
         DataTable Instance;
         BindingSource SBind;
+        BindingSource SolutionBind;
         List<Tuple<int, int>> Errors;
 
-        private Thread ga_thread;
+        GA genetic_algorithm;
 
         private void update_form(int current_gen, int current_value)
         {
@@ -26,7 +27,7 @@ namespace ZP_GA
             {
                 progressBar1.Value = current_gen;
 
-                // TUTAJ WYKRES
+                ProgressChart.Series["Funkcja celu"].Points.AddY(current_value);
             });
         }
 
@@ -86,10 +87,12 @@ namespace ZP_GA
             double cross_prob = Convert.ToDouble(Math.Round(CrossingNumeric.Value, 0)) / 100;
             double mut_prob = Convert.ToDouble(Math.Round(MutProbNumeric.Value, 0)) / 100;
 
-            GA genetic_algorithm = new GA(Instance.Copy(), pop_size, gens, time, iterations, tournament_size, cross_prob, mut_prob);
+            genetic_algorithm = new GA(Instance.Copy(), pop_size, gens, time, iterations, tournament_size, cross_prob, mut_prob);
 
             progressBar1.Minimum = 0;
             progressBar1.Maximum = gens - 1;
+
+            ProgressChart.Series["Funkcja celu"].Points.Clear();
 
             genetic_algorithm.OnProgressUpdate += update_form;
 
@@ -284,6 +287,17 @@ namespace ZP_GA
         {
             TimeBox.Enabled = true;
             ImprovementBox.Enabled = true;
+        }
+
+        private void ContinueButton3_Click(object sender, EventArgs e)
+        {
+            SolutionBind = new BindingSource();
+            SolutionBind.DataSource = genetic_algorithm.Best.Solution;
+            SolutionGridView.DataSource = SolutionBind;
+
+            SolutionValueBox.Text = genetic_algorithm.Best.Fitness.ToString();
+
+            TabControl1.SelectedTab = tabPage3;
         }
     }
 }
