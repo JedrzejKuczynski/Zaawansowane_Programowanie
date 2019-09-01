@@ -28,7 +28,7 @@ namespace ZP_GA
 
     class GA
     {
-        public delegate void ProgressUpdate(int current_gen, int current_value);
+        public delegate Tuple<bool, bool> ProgressUpdate(int current_gen, int current_value);
         public event ProgressUpdate OnProgressUpdate;
 
         private static Random random = new Random();
@@ -47,6 +47,7 @@ namespace ZP_GA
         private int tournament_size;
         private double crossing_probability;
         private double mutation_probability;
+        private Tuple<bool, bool> pause_stop;
 
         public Individual Best
         {
@@ -77,6 +78,7 @@ namespace ZP_GA
             mutation_probability = mut;
             population = new List<Individual>(population_size);
             individuals_fitness = new List<int>(population_size);
+            pause_stop = new Tuple<bool, bool>(false, false);
 
             // inicjalizacja populacji
 
@@ -304,11 +306,72 @@ namespace ZP_GA
 
                 for(int g = 0; g < generations; g++)
                 {
-                    current_generation = g;
-                    Stopwatch iteration = Stopwatch.StartNew();
+                    if (pause_stop.Item2)
+                        return;
 
-                    if (iteration_counter < iterations_threshold)
+                    if (!pause_stop.Item1)
                     {
+                        current_generation = g;
+                        Stopwatch iteration = Stopwatch.StartNew();
+
+                        if (iteration_counter < iterations_threshold)
+                        {
+
+                            // Na razie tak. Zobaczymy co potem z ta sychronizacja
+                            if (best_individual.Fitness == 0 || running_time <= 0)
+                                return;
+
+                            List<Individual> selected_individuals = selection(population);
+                            population = crossing_over(selected_individuals);
+                            population = mutation(population);
+
+                            individuals_fitness.Clear();
+
+                            foreach (Individual individual in population)
+                            {
+                                individual.calculate_fitness();
+                                individuals_fitness.Add(individual.Fitness);
+                            }
+
+                            Individual candidate_individual = population[individuals_fitness.IndexOf(individuals_fitness.Min())];
+
+                            if (best_individual.Fitness == candidate_individual.Fitness)
+                                iteration_counter++;
+
+                            if (candidate_individual.Fitness < best_individual.Fitness)
+                            {
+                                best_individual = candidate_individual;
+                                iteration_counter = 0;
+                            }
+
+                            iteration.Stop();
+                            running_time -= iteration.ElapsedMilliseconds;
+                        }
+                        else
+                            return;
+
+                        pause_stop = OnProgressUpdate(g, best_individual.Fitness);
+                    }
+                    else
+                    {
+                        g--;
+                        pause_stop = OnProgressUpdate(g, best_individual.Fitness);
+                    }
+                } // koniec pętli od generacji
+
+            } else if(time_threshold > 0)
+            {
+                float running_time = time_threshold * 60000;
+
+                for(int g = 0; g < generations; g++)
+                {
+                    if (pause_stop.Item2)
+                        return;
+
+                    if (!pause_stop.Item1)
+                    {
+                        current_generation = g;
+                        Stopwatch iteration = Stopwatch.StartNew();
 
                         // Na razie tak. Zobaczymy co potem z ta sychronizacja
                         if (best_individual.Fitness == 0 || running_time <= 0)
@@ -328,67 +391,82 @@ namespace ZP_GA
 
                         Individual candidate_individual = population[individuals_fitness.IndexOf(individuals_fitness.Min())];
 
-                        if (best_individual.Fitness == candidate_individual.Fitness)
-                            iteration_counter++;
-
                         if (candidate_individual.Fitness < best_individual.Fitness)
-                        {
                             best_individual = candidate_individual;
-                            iteration_counter = 0;
-                        }
 
                         iteration.Stop();
                         running_time -= iteration.ElapsedMilliseconds;
+                        pause_stop = OnProgressUpdate(g, best_individual.Fitness);
                     }
                     else
-                        return;
-
-                    OnProgressUpdate(g, best_individual.Fitness);
-                }
-
-            } else if(time_threshold > 0)
-            {
-                float running_time = time_threshold * 60000;
-
-                for(int g = 0; g < generations; g++)
-                {
-                    current_generation = g;
-                    Stopwatch iteration = Stopwatch.StartNew();
-
-                    // Na razie tak. Zobaczymy co potem z ta sychronizacja
-                    if (best_individual.Fitness == 0 || running_time <= 0)
-                        return;
-
-                    List<Individual> selected_individuals = selection(population);
-                    population = crossing_over(selected_individuals);
-                    population = mutation(population);
-
-                    individuals_fitness.Clear();
-
-                    foreach (Individual individual in population)
                     {
-                        individual.calculate_fitness();
-                        individuals_fitness.Add(individual.Fitness);
+                        pause_stop = OnProgressUpdate(g, best_individual.Fitness);
+                        g--;
                     }
-
-                    Individual candidate_individual = population[individuals_fitness.IndexOf(individuals_fitness.Min())];
-
-                    if (candidate_individual.Fitness < best_individual.Fitness)
-                        best_individual = candidate_individual;
-
-                    iteration.Stop();
-                    running_time -= iteration.ElapsedMilliseconds;
-                    OnProgressUpdate(g, best_individual.Fitness);
-                }
+                } // koniec pętli od generacji
             } else if(iterations_threshold > 0)
             {
                 int iteration_counter = 0;
 
                 for(int g = 0; g < generations; g++)
                 {
-                    current_generation = g;
-                    if (iteration_counter < iterations_threshold)
+                    if (pause_stop.Item2) ;
+
+                    if (!pause_stop.Item1)
                     {
+                        current_generation = g;
+                        if (iteration_counter < iterations_threshold)
+                        {
+                            // Na razie tak. Zobaczymy co potem z ta sychronizacja
+                            if (best_individual.Fitness == 0)
+                                return;
+
+                            List<Individual> selected_individuals = selection(population);
+                            population = crossing_over(selected_individuals);
+                            population = mutation(population);
+
+                            individuals_fitness.Clear();
+
+                            foreach (Individual individual in population)
+                            {
+                                individual.calculate_fitness();
+                                individuals_fitness.Add(individual.Fitness);
+                            }
+
+                            Individual candidate_individual = population[individuals_fitness.IndexOf(individuals_fitness.Min())];
+
+                            if (best_individual.Fitness == candidate_individual.Fitness)
+                                iteration_counter++;
+
+                            if (candidate_individual.Fitness < best_individual.Fitness)
+                            {
+                                best_individual = candidate_individual;
+                                iteration_counter = 0;
+                            }
+                        }
+                        else
+                            return;
+
+                        pause_stop = OnProgressUpdate(g, best_individual.Fitness);
+                    }
+                    else
+                    {
+                        g--;
+                        pause_stop = OnProgressUpdate(g, best_individual.Fitness);
+                    }
+                } // koniec pętli od generacji
+            }
+            else
+            {
+                for(int g = 0; g < generations; g++)
+                {
+                    if (pause_stop.Item2)
+                        return;
+
+                    if (!pause_stop.Item1)
+                    {
+                        current_generation = g;
+
                         // Na razie tak. Zobaczymy co potem z ta sychronizacja
                         if (best_individual.Fitness == 0)
                             return;
@@ -407,50 +485,17 @@ namespace ZP_GA
 
                         Individual candidate_individual = population[individuals_fitness.IndexOf(individuals_fitness.Min())];
 
-                        if (best_individual.Fitness == candidate_individual.Fitness)
-                            iteration_counter++;
-
                         if (candidate_individual.Fitness < best_individual.Fitness)
-                        {
                             best_individual = candidate_individual;
-                            iteration_counter = 0;
-                        }
+
+                        pause_stop = OnProgressUpdate(g, best_individual.Fitness);
                     }
                     else
-                        return;
-
-                    OnProgressUpdate(g, best_individual.Fitness);
-                }
-            }
-            else
-            {
-                for(int g = 0; g < generations; g++)
-                {
-                    current_generation = g;
-
-                    // Na razie tak. Zobaczymy co potem z ta sychronizacja
-                    if (best_individual.Fitness == 0)
-                        return;
-
-                    List<Individual> selected_individuals = selection(population);
-                    population = crossing_over(selected_individuals);
-                    population = mutation(population);
-
-                    individuals_fitness.Clear();
-
-                    foreach (Individual individual in population)
                     {
-                        individual.calculate_fitness();
-                        individuals_fitness.Add(individual.Fitness);
+                        g--;
+                        pause_stop = OnProgressUpdate(g, best_individual.Fitness);
                     }
-
-                    Individual candidate_individual = population[individuals_fitness.IndexOf(individuals_fitness.Min())];
-
-                    if (candidate_individual.Fitness < best_individual.Fitness)
-                        best_individual = candidate_individual;
-
-                    OnProgressUpdate(g, best_individual.Fitness);
-                }
+                } // koniec pętli od generacji
             }
         }
 

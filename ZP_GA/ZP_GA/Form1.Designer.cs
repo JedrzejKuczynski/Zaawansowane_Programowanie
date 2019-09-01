@@ -28,14 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea16 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend16 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series16 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.TabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.InstanceView = new System.Windows.Forms.Panel();
             this.InstanceGridView = new System.Windows.Forms.DataGridView();
             this.GenParameters = new System.Windows.Forms.Panel();
+            this.CreateButton = new System.Windows.Forms.Button();
             this.ImagePanel = new System.Windows.Forms.Panel();
             this.LoadButton = new System.Windows.Forms.Button();
             this.SaveButton = new System.Windows.Forms.Button();
@@ -53,6 +54,7 @@
             this.FragmentBox = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.HeurParameters = new System.Windows.Forms.Panel();
+            this.StopButton = new System.Windows.Forms.Button();
             this.PauseButton = new System.Windows.Forms.Button();
             this.ReturnButton1 = new System.Windows.Forms.Button();
             this.ContinueButton3 = new System.Windows.Forms.Button();
@@ -144,6 +146,7 @@
             // GenParameters
             // 
             this.GenParameters.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.GenParameters.Controls.Add(this.CreateButton);
             this.GenParameters.Controls.Add(this.ImagePanel);
             this.GenParameters.Controls.Add(this.LoadButton);
             this.GenParameters.Controls.Add(this.SaveButton);
@@ -164,6 +167,16 @@
             this.GenParameters.Name = "GenParameters";
             this.GenParameters.Size = new System.Drawing.Size(786, 277);
             this.GenParameters.TabIndex = 0;
+            // 
+            // CreateButton
+            // 
+            this.CreateButton.Location = new System.Drawing.Point(7, 175);
+            this.CreateButton.Name = "CreateButton";
+            this.CreateButton.Size = new System.Drawing.Size(75, 23);
+            this.CreateButton.TabIndex = 15;
+            this.CreateButton.Text = "Stwórz";
+            this.CreateButton.UseVisualStyleBackColor = true;
+            this.CreateButton.Click += new System.EventHandler(this.CreateButton_Click);
             // 
             // ImagePanel
             // 
@@ -336,6 +349,7 @@
             // HeurParameters
             // 
             this.HeurParameters.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.HeurParameters.Controls.Add(this.StopButton);
             this.HeurParameters.Controls.Add(this.PauseButton);
             this.HeurParameters.Controls.Add(this.ReturnButton1);
             this.HeurParameters.Controls.Add(this.ContinueButton3);
@@ -363,6 +377,16 @@
             this.HeurParameters.Size = new System.Drawing.Size(786, 418);
             this.HeurParameters.TabIndex = 0;
             // 
+            // StopButton
+            // 
+            this.StopButton.Location = new System.Drawing.Point(340, 390);
+            this.StopButton.Name = "StopButton";
+            this.StopButton.Size = new System.Drawing.Size(75, 23);
+            this.StopButton.TabIndex = 20;
+            this.StopButton.Text = "Stop";
+            this.StopButton.UseVisualStyleBackColor = true;
+            this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
+            // 
             // PauseButton
             // 
             this.PauseButton.Location = new System.Drawing.Point(259, 390);
@@ -371,6 +395,7 @@
             this.PauseButton.TabIndex = 19;
             this.PauseButton.Text = "Pauza";
             this.PauseButton.UseVisualStyleBackColor = true;
+            this.PauseButton.Click += new System.EventHandler(this.PauseButton_Click);
             // 
             // ReturnButton1
             // 
@@ -394,17 +419,17 @@
             // 
             // ProgressChart
             // 
-            chartArea16.Name = "ChartArea1";
-            this.ProgressChart.ChartAreas.Add(chartArea16);
-            legend16.Name = "Legend1";
-            this.ProgressChart.Legends.Add(legend16);
+            chartArea3.Name = "ChartArea1";
+            this.ProgressChart.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.ProgressChart.Legends.Add(legend3);
             this.ProgressChart.Location = new System.Drawing.Point(259, 11);
             this.ProgressChart.Name = "ProgressChart";
-            series16.ChartArea = "ChartArea1";
-            series16.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series16.Legend = "Legend1";
-            series16.Name = "Funkcja celu";
-            this.ProgressChart.Series.Add(series16);
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series3.Legend = "Legend1";
+            series3.Name = "Funkcja celu";
+            this.ProgressChart.Series.Add(series3);
             this.ProgressChart.Size = new System.Drawing.Size(521, 333);
             this.ProgressChart.TabIndex = 16;
             this.ProgressChart.Text = "Funkcja celu";
@@ -422,6 +447,7 @@
             this.MutProbNumeric.Name = "MutProbNumeric";
             this.MutProbNumeric.Size = new System.Drawing.Size(120, 20);
             this.MutProbNumeric.TabIndex = 10;
+            this.MutProbNumeric.Enter += new System.EventHandler(this.MutProbNumeric_Enter);
             // 
             // PopSizeLabel
             // 
@@ -447,6 +473,7 @@
             this.CrossingNumeric.Name = "CrossingNumeric";
             this.CrossingNumeric.Size = new System.Drawing.Size(120, 20);
             this.CrossingNumeric.TabIndex = 14;
+            this.CrossingNumeric.Enter += new System.EventHandler(this.CrossingNumeric_Enter);
             // 
             // GenNumberLabel
             // 
@@ -513,6 +540,7 @@
             // 
             // AdditionalRadioButton
             // 
+            this.AdditionalRadioButton.AutoCheck = false;
             this.AdditionalRadioButton.AutoSize = true;
             this.AdditionalRadioButton.Location = new System.Drawing.Point(7, 79);
             this.AdditionalRadioButton.Name = "AdditionalRadioButton";
@@ -556,6 +584,7 @@
             this.GenNumberBox.Name = "GenNumberBox";
             this.GenNumberBox.Size = new System.Drawing.Size(100, 20);
             this.GenNumberBox.TabIndex = 3;
+            this.GenNumberBox.Enter += new System.EventHandler(this.GenNumberBox_Enter);
             this.GenNumberBox.Leave += new System.EventHandler(this.GenNumberBox_Leave);
             // 
             // tabPage3
@@ -719,6 +748,8 @@
         private System.Windows.Forms.Button SaveSolutionButton;
         private System.Windows.Forms.Button PauseButton;
         private System.Windows.Forms.Button ReturnButton1;
+        private System.Windows.Forms.Button CreateButton;
+        private System.Windows.Forms.Button StopButton;
     }
 }
 

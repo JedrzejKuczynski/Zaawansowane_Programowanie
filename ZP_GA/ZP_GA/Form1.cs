@@ -20,16 +20,33 @@ namespace ZP_GA
         BindingSource SolutionBind;
         List<Tuple<int, int>> Errors;
 
+        bool pause = false;
+        bool stop = false;
+
         GA genetic_algorithm;
+        BackgroundWorker bw;
 
-        private void update_form(int current_gen, int current_value)
+        private Tuple<bool, bool> update_form(int current_gen, int current_value)
         {
-            base.Invoke((Action) delegate
+            if (!pause)
             {
-                progressBar1.Value = current_gen;
+                base.Invoke((Action)delegate
+               {
+                   progressBar1.Value = current_gen;
 
-                ProgressChart.Series["Funkcja celu"].Points.AddY(current_value);
-            });
+                   ProgressChart.Series["Funkcja celu"].Points.AddY(current_value);
+               });
+
+                Tuple<bool, bool> pause_stop = new Tuple<bool, bool>(false, stop);
+
+                return pause_stop;
+            }
+            else
+            {
+                Tuple<bool, bool> pause_stop = new Tuple<bool, bool>(true, stop);
+
+                return pause_stop;
+            }
         }
 
 
@@ -50,6 +67,8 @@ namespace ZP_GA
             TournamentBox.Enabled = false;
             TimeBox.Enabled = false;
             ImprovementBox.Enabled = false;
+            CreateButton.Enabled = false;
+            StopButton.Enabled = false;
         }
 
         private void ContinueButton1_Click(object sender, EventArgs e)
@@ -75,7 +94,19 @@ namespace ZP_GA
 
         private void ContinueButton2_Click(object sender, EventArgs e)
         {
+            PopSizeBox.Enabled = false;
+            GenNumberBox.Enabled = false;
 
+            if (AdditionalRadioButton.Checked == true)
+            {
+                TimeBox.Enabled = false;
+                ImprovementBox.Enabled = false;
+            }
+
+            CrossingNumeric.Enabled = false;
+            MutProbNumeric.Enabled = false;
+
+            ContinueButton2.Enabled = false;
             ReturnButton1.Enabled = false;
 
             int pop_size = Int32.Parse(PopSizeBox.Text);
@@ -97,14 +128,16 @@ namespace ZP_GA
             genetic_algorithm = new GA(Instance.Copy(), pop_size, gens, time, iterations, tournament_size, cross_prob, mut_prob);
 
             progressBar1.Minimum = 0;
+            progressBar1.Value = 0;
             progressBar1.Maximum = gens - 1;
 
             ProgressChart.Series["Funkcja celu"].Points.Clear();
 
             genetic_algorithm.OnProgressUpdate += update_form;
 
-            BackgroundWorker bw = new BackgroundWorker();
+            bw = new BackgroundWorker();
             bw.WorkerReportsProgress = true;
+
             bw.DoWork += new DoWorkEventHandler(
             delegate (object o, DoWorkEventArgs args)
             {
@@ -121,13 +154,34 @@ namespace ZP_GA
             delegate (object o, RunWorkerCompletedEventArgs args)
             {
                 MessageBox.Show("Skończone!!! NAJLEPSZE ROZWIĄZANIE: " + genetic_algorithm.Best.Fitness);
+
+
                 ContinueButton3.Enabled = true;
                 ReturnButton1.Enabled = true;
+
+                PopSizeBox.Enabled = true;
+                GenNumberBox.Enabled = true;
+
+                if (AdditionalRadioButton.Checked == true)
+                {
+                    TimeBox.Enabled = true;
+                    ImprovementBox.Enabled = true;
+                }
+
+                CrossingNumeric.Enabled = true;
+                MutProbNumeric.Enabled = true;
+
+                ContinueButton2.Enabled = true;
+
+                pause = false;
+                PauseButton.Text = "Pauza";
+                stop = false;
             });
 
             bw.RunWorkerAsync(genetic_algorithm);
 
             PauseButton.Enabled = true;
+            StopButton.Enabled = true;
         }
 
         private void FragmentBox_Leave(object sender, EventArgs e)
@@ -166,12 +220,14 @@ namespace ZP_GA
         private void FragmentBox_Enter(object sender, EventArgs e)
         {
             GeneratorButton.Enabled = true; // zabezpieczenie przed pustymi wartosciami
+            CreateButton.Enabled = true;
             GenAndSaveButton.Enabled = true;
         }
 
         private void SampleBox_Enter(object sender, EventArgs e)
         {
             GeneratorButton.Enabled = true; // zabezpieczenie przed pustymi wartosciami
+            CreateButton.Enabled = true;
             GenAndSaveButton.Enabled = true;
         }
 
@@ -285,10 +341,11 @@ namespace ZP_GA
         {
             TabControl1.SelectedTab = tabPage1;
             GenParameters.Enabled = true;
-            InstanceGridView.Enabled = true;
+            InstanceGridView.Enabled = false;
             AdditionalRadioButton.Checked = false;
             TimeBox.Text = "0";
             ImprovementBox.Text = "0";
+            ContinueButton2.Enabled = false;
             ((Control)tabPage1).Enabled = true;
             ((Control)tabPage2).Enabled = false;
         }
@@ -417,6 +474,62 @@ namespace ZP_GA
             progressBar1.Value = 0;
             ProgressChart.Series["Funkcja celu"].Points.Clear();
             Solution.Reset();
+            CreateButton.Enabled = false;
+            StopButton.Enabled = false;
+        }
+
+        private void CreateButton_Click(object sender, EventArgs e)
+        {
+            int fragments = Int32.Parse(FragmentBox.Text);
+            int samples = Int32.Parse(SampleBox.Text);
+
+            Generator new_instance = new Generator(fragments, samples);
+
+            if (new_instance != null)
+            {
+                Instance = new_instance.Instance.Copy();
+                SBind = new BindingSource();
+                SBind.DataSource = Instance;
+                InstanceGridView.DataSource = SBind;
+
+                ContinueButton1.Enabled = true; // zabezpieczenie przed brakiem instancji
+                ModifyButton.Enabled = true; // umozliwienie zmian
+                SaveButton.Enabled = true;
+            }
+        }
+
+        private void PauseButton_Click(object sender, EventArgs e)
+        {
+            if(!pause)
+            {
+                PauseButton.Text = "Wznów";
+                pause = true;
+            }
+            else
+            {
+                PauseButton.Text = "Pauza";
+                pause = false;
+            }
+        }
+
+        private void StopButton_Click(object sender, EventArgs e)
+        {
+            stop = true;
+        }
+
+        private void GenNumberBox_Enter(object sender, EventArgs e)
+        {
+            ContinueButton2.Enabled = true;
+        }
+
+        private void CrossingNumeric_Enter(object sender, EventArgs e)
+        {
+            ContinueButton2.Enabled = true;
+        }
+
+        private void MutProbNumeric_Enter(object sender, EventArgs e)
+        {
+            ContinueButton2.Enabled = true;
         }
     }
 }

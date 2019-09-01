@@ -39,6 +39,28 @@ namespace ZP_GA
             }
         }
 
+        public Generator(int m, int n)
+        {
+            instance = new DataTable("Instancja");
+
+            for (int i = 0; i < n; i++)
+            {
+                DataColumn new_column = new DataColumn("s" + i);
+                new_column.DataType = System.Type.GetType("System.Int32");
+                instance.Columns.Add(new_column);
+            }
+
+            for(int i = 0; i < m; i++)
+            {
+                DataRow new_row = instance.NewRow();
+
+                for (int j = 0; j < instance.Columns.Count; j++)
+                    new_row[j] = 0;
+
+                instance.Rows.Add(new_row);
+            }
+        }
+
         private Generator(int m, int n, double fill, int errors)
         {
             instance = new DataTable("Instancja");
