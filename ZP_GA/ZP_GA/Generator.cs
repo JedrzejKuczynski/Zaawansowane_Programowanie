@@ -15,6 +15,7 @@ namespace ZP_GA
         private static Random random = new Random(); // potrzebne do wypelniania wierszy
         private DataTable instance;
         private List<Tuple<int, int>> indices;
+        private List<Tuple<int, int>> cells;
 
         public DataTable Instance { get { return instance; } }
 
@@ -27,16 +28,11 @@ namespace ZP_GA
 
         public static Generator Create(int m, int n, double fill, int errors)
         {
-            int possible_errors = n / 2;
-            possible_errors *= m / 2;
+            // I tak się przyda przy testach
+            // int possible_errors = n / 2;
+            // possible_errors *= m / 2;
 
-            if (possible_errors >= errors)
-                return new Generator(m, n, fill, errors);
-            else
-            {
-                MessageBox.Show("Liczba błędów, które mają być wprowadzone przekracza oszacowaną liczbę błędów!!! Oszacowanie: " + possible_errors);
-                return null;
-            }
+            return new Generator(m, n, fill, errors);
         }
 
         public Generator(int m, int n)
@@ -64,6 +60,7 @@ namespace ZP_GA
         private Generator(int m, int n, double fill, int errors)
         {
             instance = new DataTable("Instancja");
+            cells = new List<Tuple<int, int>>();
 
             for (int i = 0; i < n; i++) // wypelnianie kolumnami reprezentujacymi probki
             {
@@ -85,7 +82,11 @@ namespace ZP_GA
                 int start_point = random.Next(instance.Columns.Count - number_of_ones + 1); // odpowiedni start
 
                 for (int j = 0; j < instance.Columns.Count; j++) // wypelnianie zerami
+                {
+                    Tuple<int, int> new_cell = new Tuple<int, int>(i, j);
+                    cells.Add(new_cell);
                     new_row[j] = 0;
+                }
 
                 while(number_of_ones > 0) // wypelnianie consecutive ones
                 {
@@ -102,79 +103,63 @@ namespace ZP_GA
 
             int errors_counter = 0;
 
-            while (errors_counter < errors) // wprowadzanie bledow
+            while (cells.Count > 0 && errors_counter < errors) // wprowadzanie bledow
             {
-                bool chosen = false;
+                int cell_index = random.Next(cells.Count);
+                Tuple<int, int> cell = cells[cell_index];
+                cells.RemoveAt(cell_index);
+                int row_index = cell.Item1;
+                int column_index = cell.Item2;
 
-                while (!chosen)
+                // DataRow current_row = instance.Rows[row_index];
+
+                if (column_index + 1 >= instance.Columns.Count) // jesteśmy na prawym skrajnym
                 {
-                    int row_index = random.Next(instance.Rows.Count); // losowanie wiersza
-                    int column_index = random.Next(instance.Columns.Count); // losowanie kolumny
-
-                    // DataRow current_row = instance.Rows[row_index];
-
-                    if (column_index + 1 >= instance.Columns.Count) // jesteśmy na prawym skrajnym
+                    if (Convert.ToInt32(instance.Rows[row_index][column_index - 1]) == 0 && Convert.ToInt32(instance.Rows[row_index][column_index]) == 0)
                     {
-                        if (Convert.ToInt32(instance.Rows[row_index][column_index - 1]) == 0 && Convert.ToInt32(instance.Rows[row_index][column_index]) == 0)
-                        {
-                            Tuple<int, int> used = Tuple.Create(row_index, column_index);
+                        Tuple<int, int> used = Tuple.Create(row_index, column_index);
 
-                            if (!indices.Contains(used))
-                            {
-                                instance.Rows[row_index][column_index] = 1;
-                                errors_counter++;
-                                indices.Add(used);
-                                chosen = true;
-                            }
-                        }
+                        instance.Rows[row_index][column_index] = 1;
+                        errors_counter++;
+                        indices.Add(used);
                     }
-                    else if (column_index - 1 < 0) // jesteśmy na lewym skrajnym
+                }
+                else if (column_index - 1 < 0) // jesteśmy na lewym skrajnym
+                {
+                    if (Convert.ToInt32(instance.Rows[row_index][column_index + 1]) == 0 && Convert.ToInt32(instance.Rows[row_index][column_index]) == 0)
                     {
-                        if (Convert.ToInt32(instance.Rows[row_index][column_index + 1]) == 0 && Convert.ToInt32(instance.Rows[row_index][column_index]) == 0)
-                        {
-                            Tuple<int, int> used = Tuple.Create(row_index, column_index);
+                        Tuple<int, int> used = Tuple.Create(row_index, column_index);
 
-                            if (!indices.Contains(used))
-                            {
-                                instance.Rows[row_index][column_index] = 1;
-                                errors_counter++;
-                                indices.Add(used);
-                                chosen = true;
-                            }
-                        }
+                        instance.Rows[row_index][column_index] = 1;
+                        errors_counter++;
+                        indices.Add(used);
                     }
-                    else // jesteśmy w środku
+                }
+                else // jesteśmy w środku
+                {
+                    string configuration = string.Join("", instance.Rows[row_index].ItemArray);
+                    configuration = configuration.Substring(column_index - 1, 3);
+
+                    if (configuration == "111")
                     {
-                        string configuration = string.Join("", instance.Rows[row_index].ItemArray);
-                        configuration = configuration.Substring(column_index - 1, 3);
+                        Tuple<int, int> used = Tuple.Create(row_index, column_index);
 
-                        if (configuration == "111")
-                        {
-                            Tuple<int, int> used = Tuple.Create(row_index, column_index);
+                        instance.Rows[row_index][column_index] = 0;
+                        errors_counter++;
+                        indices.Add(used);
+                    }
+                    else if (configuration == "000")
+                    {
+                        Tuple<int, int> used = Tuple.Create(row_index, column_index);
 
-                            if (!indices.Contains(used))
-                            {
-                                instance.Rows[row_index][column_index] = 0;
-                                errors_counter++;
-                                indices.Add(used);
-                                chosen = true;
-                            }
-                        }
-                        else if (configuration == "000")
-                        {
-                            Tuple<int, int> used = Tuple.Create(row_index, column_index);
-
-                            if (!indices.Contains(used))
-                            {
-                                instance.Rows[row_index][column_index] = 1;
-                                errors_counter++;
-                                indices.Add(used);
-                                chosen = true;
-                            }
-                        }
+                        instance.Rows[row_index][column_index] = 1;
+                        errors_counter++;
+                        indices.Add(used);
                     }
                 }
             }
+
+            MessageBox.Show("Wprowadzono " + errors_counter + " błędów z " + errors + ".");
         }
             
     }
