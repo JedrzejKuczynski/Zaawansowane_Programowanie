@@ -25,7 +25,6 @@ namespace ZP_GA
 
         GA genetic_algorithm;
         BackgroundWorker bw;
-        // Tests tests = new Tests();
 
         private Tuple<bool, bool> update_form(int current_gen, int current_value)
         {
@@ -70,6 +69,9 @@ namespace ZP_GA
             ImprovementBox.Enabled = false;
             CreateButton.Enabled = false;
             StopButton.Enabled = false;
+
+            Tests tests = new Tests();
+            tests.run_tests();
         }
 
         private void ContinueButton1_Click(object sender, EventArgs e)

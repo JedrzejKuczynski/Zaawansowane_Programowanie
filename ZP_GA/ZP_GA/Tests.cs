@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -10,67 +11,110 @@ namespace ZP_GA
 {
     class Tests
     {
-        // TO TRZA WPIERDZIELIĆ W FUNKCJĘ. MOŻE???
+        List<int> fragments;
+        List<int> samples;
+        List<double> fills;
+
+        List<int> pop_sizes;
+        List<int> gens;
+        List<double> crossing_overs;
+        List<double> mutations;
+
         public Tests()
         {
             // Generator
             // m liczba fragmentów
             // n liczba próbek
 
-            List<int> fragments = new List<int> { 5, 10, 20, 30, 40, 50, 80, 100, 120, 150, 200, 250, 300 };
-            List<int> samples = new List<int> { 5, 10, 20, 30, 40, 50, 80, 100, 120, 150, 200, 250, 300 };
-            List<int> fills = new List<int> { 10, 20, 30, 40, 50 };
+            fragments = new List<int> { 10, 20, 30, 40, 50, 80, 100, 120, 150, 200, 250, 300 };
+            samples = new List<int> { 10, 20, 30, 40, 50, 80, 100, 120, 150, 200, 250, 300 };
+            fills = new List<double> { 0.1, 0.2, 0.3, 0.4, 0.5 };
             // Błędy dynamicznie CO Z NIMI??? OTO PYTANIE
 
 
             // Heurystyka
 
-            List<int> pop_sizes = new List<int> { 50, 100, 150, 200, 250, 300, 350, 400, 450, 500 };
-            List<int> gens = new List<int> { 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000 };
+            pop_sizes = new List<int> { 50, 100, 150, 200, 250, 300, 350, 400, 450, 500 };
+            gens = new List<int> { 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000 };
             // Turniej dynamicznie 10%, 20%, 30%, 40%, 50% populacji???
-            List<int> crossing_overs = new List<int> { 10, 20, 30, 40, 50, 60, 70, 80, 90 };
-            List<int> mutations = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            crossing_overs = new List<double> { 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 };
+            mutations = new List<double> { 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1 };
 
 
-            for(int m = 0; m < fragments.Count; m++)
-                for(int n = 0; n < samples.Count; n++)
+
+        }
+
+        public void run_tests()
+        {
+            for (int m = 0; m < fragments.Count; m++)
+                for (int n = 0; n < samples.Count; n++)
                 {
-                    Directory.CreateDirectory("Testy" + Path.DirectorySeparatorChar + fragments[m] + "_" + samples[n]);
+                    int current_fragments = fragments[m];
+                    int current_samples = samples[n];
+                    string current_dir = @"C:\Users\Jędrzej\Desktop\Studium_Naturae\Zaawansowane_Programowanie\ZP_GA\ZP_GA";
+                    string folder_path = current_dir + Path.DirectorySeparatorChar + "Testy" + Path.DirectorySeparatorChar + current_fragments + "_" + current_samples;
+                    Directory.CreateDirectory(folder_path);
 
                     for (int f = 0; f < fills.Count; f++)
                     {
+                        double current_fill = fills[f];
                         List<int> errors = new List<int>();
 
-                        // TU BŁĘDY JAKOŚ UMIEJĘTNIE
+                        int max_errors = (current_fragments * current_samples) / 5;
+                        float error_increment = max_errors / 8;
+                        float number_of_errors = 0;
+                        errors.Add(Convert.ToInt32(number_of_errors));
 
-                        for(int e = 0; e < errors.Count; e++)
+                        for(int inc = 0; inc < 8; inc++)
+                        {
+                            number_of_errors += error_increment;
+                            errors.Add(Convert.ToInt32(number_of_errors));
+                        }
+
+                        for (int e = 0; e < errors.Count; e++)
                             for (int p = 0; p < pop_sizes.Count; p++)
-                                for (int g = 0; g < gens.Count; g++)
-                                {
-                                    int pop_size = pop_sizes[p];
-                                    List<int> tournament_sizes = new List<int> { Convert.ToInt32(pop_size*0.1), Convert.ToInt32(pop_size*0.2),
+                            {
+                                int current_errors = errors[e];
+                                int pop_size = pop_sizes[p];
+                                List<int> tournament_sizes = new List<int> { Convert.ToInt32(pop_size*0.1), Convert.ToInt32(pop_size*0.2),
                                                                                     Convert.ToInt32(pop_size*0.3), Convert.ToInt32(pop_size*0.4),
                                                                                     Convert.ToInt32(pop_size*0.5) };
 
+                                for (int g = 0; g < gens.Count; g++)
                                     for (int t = 0; t < tournament_sizes.Count; t++)
                                         for (int cv = 0; cv < crossing_overs.Count; cv++)
                                             for (int mut = 0; mut < mutations.Count; mut++)
                                             {
-                                                // TU TWORZENIE PLIKU
-                                                Console.WriteLine("Tworzę plik!!! PARAMETRY: Fragmenty:" + m + " Próbki: " + n + " POP: " + p + " GENS: " + g + " TOURNAMENT: " + t + " CO: " + cv + " MUT:" + mut);
+                                                int current_gens = gens[g];
+                                                int current_tournament = tournament_sizes[t];
+                                                double current_cv = crossing_overs[cv];
+                                                double current_mut = mutations[mut];
+
+                                                string file_name_template = "{0}_{1}_{2}_{3}_{4}_{5}_{6}_{7}_{8}.txt";
+                                                string file_name = string.Format(file_name_template, current_fragments, current_samples, current_fill, current_errors, pop_size, current_gens, current_tournament, current_cv, current_mut);
+                                                string file_path = folder_path + Path.DirectorySeparatorChar + file_name;
+
+                                                Console.WriteLine("\n\nTworzę plik!!! PARAMETRY:\nFragmenty:" + current_fragments + " Próbki: " + current_samples + " FILL: " + current_fill + " ERRORS: " + current_errors + " POP: " + pop_size + " GENS: " + current_gens + " TOURNAMENT: " + current_tournament + " CO: " + current_cv + " MUT:" + current_mut);
+
                                                 for (int i = 0; i < 10; i++)
                                                 {
-                                                    // DataTable new_instance = Generator.Create(fragments[m], samples[n], fills[f], errors[e]).Instance;
-                                                    // GA ga = new GA(new_instance.Copy(), pop_size, gens[g], 0, 0, tournament_sizes[t], crossing_overs[cv], mutations[mut]);
-                                                    // MIERZENIE CZASU I WARTOŚCI FUNKCJI
-                                                    // ga.life_uh_finds_a_way();
-                                                    // JAKIŚ CONSOLE.WRITELINE()
-                                                    Console.WriteLine("ELO INSTANCJA: " + i);
-                                                    // I DODANIE DO PLIKU
+                                                    DataTable new_instance = Generator.Create(current_fragments, current_samples, current_fill, current_errors).Instance;
+                                                    GA ga = new GA(new_instance.Copy(), pop_size, current_gens, 0, 0, current_tournament, current_cv, current_mut);
+
+                                                    Stopwatch stopwatch = Stopwatch.StartNew();
+                                                    ga.life_uh_finds_a_way();
+                                                    stopwatch.Stop();
+
+                                                    var time = stopwatch.ElapsedMilliseconds;
+
+                                                    Console.WriteLine("INSTANCJA: " + i + "; WARTOŚĆ: " + ga.Best.Fitness + " CZAS W SEKUNDACH: " + time*0.001);
+
+                                                    using (StreamWriter sw = new StreamWriter(file_path, true))
+                                                        sw.WriteLine(ga.Best.Fitness + " " + time);
                                                 }
 
                                             }
-                                }
+                            }
                     }
                 }
         }
