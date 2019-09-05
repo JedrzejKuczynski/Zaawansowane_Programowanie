@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.TabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.InstanceView = new System.Windows.Forms.Panel();
@@ -419,17 +419,17 @@
             // 
             // ProgressChart
             // 
-            chartArea6.Name = "ChartArea1";
-            this.ProgressChart.ChartAreas.Add(chartArea6);
-            legend6.Name = "Legend1";
-            this.ProgressChart.Legends.Add(legend6);
+            chartArea1.Name = "ChartArea1";
+            this.ProgressChart.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.ProgressChart.Legends.Add(legend1);
             this.ProgressChart.Location = new System.Drawing.Point(259, 11);
             this.ProgressChart.Name = "ProgressChart";
-            series6.ChartArea = "ChartArea1";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series6.Legend = "Legend1";
-            series6.Name = "Funkcja celu";
-            this.ProgressChart.Series.Add(series6);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Legend = "Legend1";
+            series1.Name = "Funkcja celu";
+            this.ProgressChart.Series.Add(series1);
             this.ProgressChart.Size = new System.Drawing.Size(521, 333);
             this.ProgressChart.TabIndex = 16;
             this.ProgressChart.Text = "Funkcja celu";

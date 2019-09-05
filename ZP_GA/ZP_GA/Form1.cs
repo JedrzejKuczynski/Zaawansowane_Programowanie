@@ -52,6 +52,9 @@ namespace ZP_GA
 
         public Form1()
         {
+            Tests tests = new Tests();
+            tests.run_tests();
+
             InitializeComponent();
             ((Control)tabPage2).Enabled = false; // wylaczenie zakladki podczas startu programu
             GeneratorButton.Enabled = false; // zabezpieczenie przed pustymi wartosciami
@@ -69,9 +72,6 @@ namespace ZP_GA
             ImprovementBox.Enabled = false;
             CreateButton.Enabled = false;
             StopButton.Enabled = false;
-
-            Tests tests = new Tests();
-            tests.run_tests();
         }
 
         private void ContinueButton1_Click(object sender, EventArgs e)
@@ -158,7 +158,6 @@ namespace ZP_GA
             delegate (object o, RunWorkerCompletedEventArgs args)
             {
                 MessageBox.Show("Skończone!!! NAJLEPSZE ROZWIĄZANIE: " + genetic_algorithm.Best.Fitness);
-
 
                 ContinueButton3.Enabled = true;
                 ReturnButton1.Enabled = true;

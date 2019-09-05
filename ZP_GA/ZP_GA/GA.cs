@@ -410,7 +410,8 @@ namespace ZP_GA
 
                 for(int g = 0; g < generations; g++)
                 {
-                    if (pause_stop.Item2) ;
+                    if (pause_stop.Item2)
+                       return;
 
                     if (!pause_stop.Item1)
                     {
@@ -488,7 +489,8 @@ namespace ZP_GA
                         if (candidate_individual.Fitness < best_individual.Fitness)
                             best_individual = candidate_individual;
 
-                        pause_stop = OnProgressUpdate(g, best_individual.Fitness);
+                        if(OnProgressUpdate != null) // DO TESTÓW
+                            pause_stop = OnProgressUpdate(g, best_individual.Fitness);
                     }
                     else
                     {
