@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -52,8 +53,8 @@ namespace ZP_GA
 
         public Form1()
         {
-            Tests tests = new Tests();
-            tests.run_tests();
+            // Tests tests = new Tests();
+            // tests.run_tests();
 
             InitializeComponent();
             ((Control)tabPage2).Enabled = false; // wylaczenie zakladki podczas startu programu
@@ -76,15 +77,16 @@ namespace ZP_GA
 
         private void ContinueButton1_Click(object sender, EventArgs e)
         {
-            List<int> allowed = new List<int> {0, 1};
+            List<int> allowed = new List<int> { 0, 1 };
 
             for (int i = 0; i < Instance.Rows.Count; i++)
                 for (int j = 0; j < Instance.Columns.Count; j++)
                     if (!allowed.Contains(Convert.ToInt32(Instance.Rows[i][j])))
                     {
-                        MessageBox.Show("Instancja jest niepoprawna!!! Znajdują się w niej cyfry inne od 0 i 1!!! Wiersz: " + (i+1) + " Kolumna: " + (j+1));
+                        MessageBox.Show("Instancja jest niepoprawna!!! Znajdują się w niej cyfry inne od 0 i 1!!! Wiersz: " + (i + 1) + " Kolumna: " + (j + 1));
                         return;
-                    }else
+                    }
+                    else
                     {
 
                     }
@@ -293,13 +295,15 @@ namespace ZP_GA
 
         private void LoadButton_Click(object sender, EventArgs e)
         {
+            InstanceGridView.DataSource = null;
+            // Instance.Clear();
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             openFileDialog1.Filter = "XML DataTable|*.xml";
             openFileDialog1.Title = "Wczytaj macierz";
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                Instance = new DataTable();
+                Instance = new DataTable("Instancja");
                 Instance.ReadXml(openFileDialog1.FileName);
 
                 SBind = new BindingSource();
@@ -423,7 +427,26 @@ namespace ZP_GA
 
         private void SaveSolutionButton_Click(object sender, EventArgs e)
         {
-            SaveButton_Click(sender, e);
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "CSV file|*.csv";
+            saveFileDialog1.Title = "Zapisz rozwiązanie";
+            saveFileDialog1.ShowDialog();
+
+            StringBuilder sb = new StringBuilder();
+            DataTable solution = genetic_algorithm.Best.Solution;
+
+            IEnumerable<string> column_names = solution.Columns.Cast<DataColumn>().Select(column => column.ColumnName);
+
+            sb.AppendLine(string.Join(",", column_names));
+
+            foreach (DataRow row in solution.Rows)
+            {
+                IEnumerable<string> fields = row.ItemArray.Select(field => field.ToString());
+                sb.AppendLine(string.Join(",", fields));
+            }
+
+            if (saveFileDialog1.FileName != "")
+                File.WriteAllText(saveFileDialog1.FileName, sb.ToString());
         }
 
         private void ContinueButton4_Click(object sender, EventArgs e)
@@ -503,7 +526,7 @@ namespace ZP_GA
 
         private void PauseButton_Click(object sender, EventArgs e)
         {
-            if(!pause)
+            if (!pause)
             {
                 PauseButton.Text = "Wznów";
                 pause = true;
@@ -533,6 +556,53 @@ namespace ZP_GA
         private void MutProbNumeric_Enter(object sender, EventArgs e)
         {
             ContinueButton2.Enabled = true;
+        }
+
+        private void LoadSolutionButton_Click(object sender, EventArgs e)
+        {
+            InstanceGridView.DataSource = null;
+            // Instance.Clear();
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Filter = "CSV file|*.csv";
+            openFileDialog1.Title = "Wczytaj rozwiązanie";
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                Instance = new DataTable("Instancja");
+
+                SBind = new BindingSource();
+                SBind.DataSource = Instance;
+                InstanceGridView.DataSource = SBind;
+
+                using (StreamReader sr = new StreamReader(openFileDialog1.FileName))
+                {
+
+                    string[] column_names = sr.ReadLine().Split(',');
+
+                    foreach (string column_name in column_names)
+                    {
+                        DataColumn new_column = new DataColumn(column_name);
+                        new_column.DataType = System.Type.GetType("System.Int32");
+                        Instance.Columns.Add(new_column);
+                    }
+
+                    while (!sr.EndOfStream)
+                    {
+                        string[] fields = sr.ReadLine().Split(',');
+                        DataRow new_row = Instance.NewRow();
+
+                        for (int i = 0; i < fields.Length; i++)
+                            new_row[i] = fields[i];
+
+                        Instance.Rows.Add(new_row);
+                            
+                    }
+
+                    ContinueButton1.Enabled = true; // zabezpieczenie przed brakiem instancji
+                    ModifyButton.Enabled = true; // umozliwienie zmian
+                    SaveButton.Enabled = true;
+                }
+            }
         }
     }
 }

@@ -159,7 +159,7 @@ namespace ZP_GA
                 }
             }
 
-            // MessageBox.Show("Wprowadzono " + errors_counter + " błędów z " + errors + "."); ODKOMENTOWAĆ PO TESTACH
+            MessageBox.Show("Wprowadzono " + errors_counter + " błędów z " + errors + ".");
         }
             
     }

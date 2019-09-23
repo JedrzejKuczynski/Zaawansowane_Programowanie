@@ -84,6 +84,7 @@
             this.SolutionValueLabel = new System.Windows.Forms.Label();
             this.ContinueButton4 = new System.Windows.Forms.Button();
             this.SolutionValueBox = new System.Windows.Forms.TextBox();
+            this.LoadSolutionButton = new System.Windows.Forms.Button();
             this.TabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.InstanceView.SuspendLayout();
@@ -146,6 +147,7 @@
             // GenParameters
             // 
             this.GenParameters.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.GenParameters.Controls.Add(this.LoadSolutionButton);
             this.GenParameters.Controls.Add(this.CreateButton);
             this.GenParameters.Controls.Add(this.ImagePanel);
             this.GenParameters.Controls.Add(this.LoadButton);
@@ -666,6 +668,16 @@
             this.SolutionValueBox.Size = new System.Drawing.Size(86, 20);
             this.SolutionValueBox.TabIndex = 7;
             // 
+            // LoadSolutionButton
+            // 
+            this.LoadSolutionButton.Location = new System.Drawing.Point(89, 174);
+            this.LoadSolutionButton.Name = "LoadSolutionButton";
+            this.LoadSolutionButton.Size = new System.Drawing.Size(113, 23);
+            this.LoadSolutionButton.TabIndex = 16;
+            this.LoadSolutionButton.Text = "Wczytaj rozwiązanie";
+            this.LoadSolutionButton.UseVisualStyleBackColor = true;
+            this.LoadSolutionButton.Click += new System.EventHandler(this.LoadSolutionButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -750,6 +762,7 @@
         private System.Windows.Forms.Button ReturnButton1;
         private System.Windows.Forms.Button CreateButton;
         private System.Windows.Forms.Button StopButton;
+        private System.Windows.Forms.Button LoadSolutionButton;
     }
 }
 
